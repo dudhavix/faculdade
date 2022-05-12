@@ -20,6 +20,9 @@ const { isEmpty } = require("lodash");
 const { google } = require("googleapis");
 
 const renderError = require("./helper/renderError");
+const activityDataMapper = require("./helper/mapper/activityData");
+const bodyDataMapper = require("./helper/mapper/bodyData");
+const sleepDataMapper = require("./helper/mapper/sleepData");
 
 app.use(cors());
 app.use(cookieParser());
@@ -105,12 +108,17 @@ app.get("/aggregate-example", (req, res, next) => {
 ////////////////////////////////
 
 app.get("/step_count-delta", (req, res, next) => {
-    const body = getAggregateBy("com.google.step_count.delta", "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps", "01062021");
+    const body = getAggregateBy("com.google.step_count.delta", "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps", "11052022");
 
     axios
         .post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", body, { headers: getAuthorization() })
-        .then(({ data }) => activityDataMapper.sumTotalAndListAllSteps(res, data))
-        .catch(err => renderError(err, res));
+        .then(({ data }) => {
+            activityDataMapper.sumTotalAndListAllSteps(res, data)
+        })
+        .catch(err => {
+            console.log(err);
+            renderError(err, res)
+        });
 });
 
 ////////////////////////////////
@@ -119,7 +127,7 @@ app.get("/step_count-delta", (req, res, next) => {
 ////////////////////////////////
 
 app.get("/heart-rate", (req, res, next) => {
-    const body = getAggregateBy("com.google.heart_rate.bpm", "derived:com.google.heart_rate.bpm:com.google.android.gms:merge_heart_rate_bpm", "01062021");
+    const body = getAggregateBy("com.google.heart_rate.bpm", "derived:com.google.heart_rate.bpm:com.google.android.gms:merge_heart_rate_bpm", "11052022");
 
     axios
         .post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", body, { headers: getAuthorization() })
@@ -132,12 +140,18 @@ app.get("/heart-rate", (req, res, next) => {
 // https://developers.google.com/fit/datatypes/sleep
 ////////////////////////////////
 
-app.get("/sleep", (req, res, next) => {
-    const body = getAggregateBy("com.google.sleep.segment", "derived:com.google.sleep.segment:com.google.android.gms:merged", "01062021");
+// app.get("/sleep", (req, res, next) => {
+//     const body = getAggregateBy("com.google.sleep.segment", "derived:com.google.sleep.segment:com.google.android.gms:merged", "10052022");
 
-    axios
-        .post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", body, { headers: getAuthorization() })
-        .then(({ data }) => sleepDataMapper.sleepData(res, data))
+//     axios        .post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", body, { headers: getAuthorization() })
+//         .then(({ data }) => sleepDataMapper.sleepData(res, data))
+//         .catch(err => renderError(err, res));
+// });
+
+app.get("/sleep", (req, res, next) => {
+    axios        
+        .get("https://www.googleapis.com/fitness/v1/users/me/sessions?startTime=2022-05-10T00:00.000Z&endTime=2022-05-11T23:59:59.999Z&activityType=72", { headers: getAuthorization() })
+        .then(({ data }) => res.send(data))
         .catch(err => renderError(err, res));
 });
 
@@ -157,11 +171,14 @@ function getAuthorization() {
     return { authorization: "Bearer " + oauth2Client.credentials.access_token };
 }
 
-function getAggregateBy(dataTypeName, dataSourceId, start = null, end = null, durationMillis = 86400000, format = "DDMMYYYY") {
+function getAggregateBy(dataTypeName, dataSourceId, start=null, end=null, durationMillis = 86400000, format = "DDMMYYYY") {
     return {
         aggregateBy: [{ dataTypeName, dataSourceId }],
         bucketByTime: { durationMillis }, // 86400000 is 24 hours
         startTimeMillis: start ? moment(start, format).valueOf() : moment().valueOf(),
+        //startTimeMillis: 1651422960000,
         endTimeMillis: end ? moment(end, format).valueOf() : moment().valueOf()
+        //endTimeMillis: 1651423260000
     };
 }
+
