@@ -19,13 +19,13 @@ passport.use(new GoogleStrategy(
     async function (request, accessToken, refreshToken, profile, done) {
         const usuario = await usuario_model.findOne({ sub: profile._json.sub });
 
-        if( usuario ){
-            return done(null, usuario);
-        }else{
+        if (usuario) {
+            return done(null, {usuario, accessToken});
+        } else {
             const novoUsuario = await usuario_model.create(profile._json);
             return done(null, novoUsuario);
         }
-        
+
     }
 ));
 
