@@ -1,7 +1,7 @@
 <template>
     <div class="">
 
-        <div class="my-4 col-12 d-flex justify-content-center">
+        <div class="py-4 col-12 d-flex justify-content-center bg-white">
             <div class="border border-5 border-aqua rounded-circle d-flex justify-content-center align-items-center">
                 <div
                     class="border border-5 border-blue rounded-circle d-flex justify-content-center align-items-center">
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="p-4 col-12 bg-light">
+        <div class="mb-5 p-4 col-12">
             <div class="d-flex justify-content-between">
                 <p class="fw-bold">Comunidades</p>
                 <router-link to=""><small class="text-info">detalhes</small></router-link>
