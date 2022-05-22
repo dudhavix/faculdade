@@ -56,7 +56,7 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: #7b809a;
+  --bs-body-color: #251E1E;
   --bs-body-bg: #fff;
 }
 
@@ -113,7 +113,7 @@ h6,
   margin-bottom: 0.5rem;
   font-weight: 400;
   line-height: 1.2;
-  color: #344767;
+  color: #251E1E;
 }
 
 h1,
@@ -27285,5 +27285,6 @@ pre[class*="language-"] {
     overflow: auto !important;
   }
 }
+
 
 /*# sourceMappingURL=kit-free.css.map */
