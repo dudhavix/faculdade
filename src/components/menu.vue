@@ -11,8 +11,8 @@
                 </h4>
             </router-link>
 
-            <router-link :to="{ name: 'premios' }">
-                <h4 v-if="menuAtivo.premios" class="active">
+            <router-link :to="{ name: 'comunidades' }">
+                <h4 v-if="menuAtivo.comunidades" class="active">
                     <i class="bi bi-award-fill"></i>
                 </h4>
                 <h4 v-else class="text-color-cinza">
@@ -41,7 +41,7 @@ export default {
         return {
             menuAtivo: {
                 home: false,
-                premios: false,
+                comunidades: false,
                 configuracoes: false
             }
         }
@@ -50,23 +50,23 @@ export default {
     methods: {
         carregarMenu(){
             switch (this.$route.name) {
-                case "premios":
+                case "comunidades":
                     this.menuAtivo.home = false;
-                    this.menuAtivo.premios = true;
+                    this.menuAtivo.comunidades = true;
                     this.menuAtivo.notificacao = false;
                     this.menuAtivo.configuracoes = false;
                     break;
                 
                 case "configuracoes":
                     this.menuAtivo.home = false;
-                    this.menuAtivo.premios = false;
+                    this.menuAtivo.comunidades = false;
                     this.menuAtivo.notificacao = false;
                     this.menuAtivo.configuracoes = true;
                     break;
             
                 default:
                     this.menuAtivo.home = true;
-                    this.menuAtivo.premios = false;
+                    this.menuAtivo.comunidades = false;
                     this.menuAtivo.notificacao = false;
                     this.menuAtivo.configuracoes = false;
                     break;

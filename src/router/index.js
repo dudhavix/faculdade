@@ -18,10 +18,10 @@ const routes = [
         }
     },
     {
-        path: '/premios',
-        name: 'premios',
+        path: '/comunidades',
+        name: 'comunidades',
         component: function () {
-            return import('../views/Premios.vue')
+            return import('../views/Comunidades.vue')
         }
     },
     {

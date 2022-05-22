@@ -1,12 +1,15 @@
 <template>
-    <Menu/>
+    <div>
+        comunidades
+        <Menu/>
+    </div>
 </template>
 
 <script>
 import Menu from "../components/menu.vue";
 
 export default {
-    name: "Premios",
+    name: "Comunidades",
 
     components: {
         Menu

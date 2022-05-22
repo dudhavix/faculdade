@@ -1,55 +1,62 @@
 <template>
     <div>
-        <Loading v-if="loading" />
-        <!-- End Navbar -->
         <div class="page-header align-items-start min-vh-100"
-            style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');"
+            :style="{ backgroundImage: 'url(' + require('../assets/tela-login.jpg') + ')', backgroundPositionX: '100%' }"
             loading="fast">
             <span class="mask bg-gradient-dark opacity-6"></span>
-            <div class="container my-auto">
-                <div class="row">
-                    <div class="col-lg-4 col-md-8 col-12 mx-auto">
-                        <div class="card z-index-0 fadeIn3 fadeInBottom">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Entre</h4>
-                                    <div class="row mt-3">
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body" id="content_oauth2">
-                                <a href="http://localhost:3030/oauth">Entrar com o google</a>
-                            </div>
+
+            <div class="container my-auto">
+                <div class="">
+                    <div class="card-body  text-white">
+
+                        <div id="iconVida"
+                            class="bg-white-transparente d-flex justify-content-center align-items-center">
+                            <i class="bi bi-activity h1 m-0 text-white"></i>
                         </div>
+
+                        <div class="my-4">
+                            <h1 class="text-white mb-4">Some quick example</h1>
+                        
+                            <p class="card-text">
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                            </p>
+                        </div>
+
+                        <button class="btn btn-icon btn-light rounded-pill d-flex justify-content-between align-items-center" type="button">
+                            Entre
+                            <span class="h4 mb-0 ms-4">
+                                <i class="bi bi-arrow-right-short"></i>
+                            </span>
+                        </button>
+
                     </div>
                 </div>
             </div>
-            <Footer />
+
         </div>
+
+
     </div>
 </template>
 
 <script>
 import Footer from "../components/footer.vue"
-import Loading from "../components/loading.vue"
 
 export default {
     components: {
         Footer,
-        Loading,
     },
 
     data() {
         return {
-            loading: true,
         }
     },
 
-    created() {},
+    created() { },
 
-    beforeMount() {
-        this.loading = false;
+    mounted() {
     },
 
     methods: {},
@@ -57,8 +64,26 @@ export default {
 </script>
 
 <style scoped>
-.btn-azul{
-    background-color: #1a73e8;
+.bg-white-transparente {
+    background-color: #ffffff4f !important;
     color: white;
+
+}
+
+#iconVida {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    color: white;
+}
+
+#texto-chamativo {
+    /* font-size: calc(3rem + 2.1vw); */
+}
+
+.btn-light {
+    color: #000;
+    background-color: white;
+    border-color: white;
 }
 </style>
