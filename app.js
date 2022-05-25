@@ -7,7 +7,7 @@ const cors = require("cors");
 const axios = require("axios");
 const moment = require("moment");
 const { cookie } = require("request");
-const { getSteps, mapperSteps } = require("./services");
+const { getSteps, mapperSteps, getSleep } = require("./services");
 require("./config/auth");
 
 const app = express();
@@ -49,6 +49,12 @@ app.get("/steps", isLoggedIn, async (req, res) => {
     const stepsData = await getSteps(req.user.accessToken);
     const steps = await mapperSteps(stepsData);
     res.send(steps);
+});
+
+app.get("/sleep", isLoggedIn, async (req, res) => {
+    const sleepData = await getSleep(req.user.accessToken);
+    console.log(sleepData.data);
+    res.send(sleepData.data);
 });
 
 app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
