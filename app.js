@@ -4,9 +4,10 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
-const { default: axios } = require("axios");
+const axios = require("axios");
 const moment = require("moment");
 const { cookie } = require("request");
+const { getSteps, mapperSteps } = require("./services");
 require("./config/auth");
 
 const app = express();
@@ -31,7 +32,7 @@ app.get("/oauth2callback", passport.authenticate('google', { successRedirect: '/
 
 app.get("/login", isLoggedIn, (req, res) => {
     //res.send(req.user);
-    res.redirect("/testes");
+    res.redirect("/steps");
 });
 
 app.get("/oauth/failure", (req, res) => {
@@ -44,36 +45,11 @@ app.get("/logout", (req, res) => {
     res.send("adeus");
 });
 
-app.get("/testes", isLoggedIn, (req, res) => {
-    axios
-        .post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
-            "aggregateBy": [{
-                "dataTypeName": "com.google.step_count.delta",
-                "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
-            }],
-            "bucketByTime": { "durationMillis": 86400000 },
-            "startTimeMillis": 1652670000000,
-            "endTimeMillis": 1652756399000
-        }, { headers: getAuthorization(req.user.accessToken) })
-        .then(({ data }) => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.send(err.response.data)
-        });
-})
+app.get("/steps", isLoggedIn, async (req, res) => {
+    const stepsData = await getSteps(req.user.accessToken);
+    const steps = await mapperSteps(stepsData);
+    res.send(steps);
+});
 
 app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
 
-function getAuthorization(accessToken) {
-    return { authorization: `Bearer ${accessToken}` }
-}
-
-function getAggregateBy(dataTypeName, dataSourceId, start = null, end = null, durationMillis = 86400000, format = "DDMMYYYY") {
-    return {
-        aggregateBy: [{ dataTypeName, dataSourceId }],
-        bucketByTime: { durationMillis }, // 86400000 is 24 hours
-        startTimeMillis: start ? moment(start, format).valueOf() : moment().valueOf(),
-        endTimeMillis: end ? moment(end, format).valueOf() : moment().valueOf()
-    };
-}
