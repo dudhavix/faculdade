@@ -7,7 +7,7 @@ const cors = require("cors");
 const axios = require("axios");
 const moment = require("moment");
 const { cookie } = require("request");
-const { getSteps, mapperSteps, getSleep } = require("./services");
+const { getSteps, mapperSteps, getSleep, mapperSleeps } = require("./services");
 require("./config/auth");
 
 const app = express();
@@ -23,20 +23,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    res.send('<a href="/oauth">Authenticate with Google</a>');
+    res.redirect("/login");
 });
 
 app.get('/oauth', passport.authenticate('google', { scope: process.env.SCOPES }));
 
 app.get("/oauth2callback", passport.authenticate('google', { successRedirect: '/login', failureRedirect: '/oauth/failure' }));
 
-app.get("/login", isLoggedIn, (req, res) => {
-    //res.send(req.user);
-    res.redirect("/steps");
-});
-
 app.get("/oauth/failure", (req, res) => {
     res.send("Falha ao logar");
+});
+
+app.get("/login", isLoggedIn, (req, res) => {
+    res.redirect("/home");
 });
 
 app.get("/logout", (req, res) => {
@@ -45,16 +44,20 @@ app.get("/logout", (req, res) => {
     res.send("adeus");
 });
 
+app.get("/home", isLoggedIn, (req, res) => {
+    res.send("<a href='/steps'> Steps </a> --- <a href='/sleep'> Sleep </a> --- <a href=''> Ritmo cardiáco </a>")
+});
+
 app.get("/steps", isLoggedIn, async (req, res) => {
     const stepsData = await getSteps(req.user.accessToken);
-    const steps = await mapperSteps(stepsData);
+    const steps = mapperSteps(stepsData);
     res.send(steps);
 });
 
 app.get("/sleep", isLoggedIn, async (req, res) => {
     const sleepData = await getSleep(req.user.accessToken);
-    console.log(sleepData.data);
-    res.send(sleepData.data);
+    const sleep = mapperSleeps(sleepData);
+    res.send(sleep);
 });
 
 app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));

@@ -17,15 +17,28 @@ module.exports = {
         return axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
             "aggregateBy": [{
                 "dataTypeName": "com.google.sleep.segment",
-                "dataSourceId": "derived:com.google.sleep.segment:com.google.android.gms:merged"
             }],
-            "bucketByTime": { "durationMillis": 86400000 },
-            "startTimeMillis": new Date("Tue May 23 2022").getTime(),
-            "endTimeMillis": new Date("Tue May 24 2022").getTime()
+            "startTimeMillis": new Date("Tue May 21 2022").getTime(),
+            "endTimeMillis": new Date("Tue May 22 2022").getTime()
         }, { headers: getAuthorization(token) })
     },
 
-    mapperSteps: async (data) => {
+    mapperSteps: (data) => {
+        const bucketArr = data.data.bucket;
+        let heartRateArr = [];
+
+        for (const item of bucketArr) {
+            for (const dataset of item.dataset) {
+                for (const point of dataset.point) {
+                    heartRateArr.push({ point });
+                }
+            }
+        }
+
+        return heartRateArr;
+    },
+
+    mapperSleeps: (data) => {
         const bucketArr = data.data.bucket;
         let heartRateArr = [];
 
