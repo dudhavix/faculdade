@@ -4,9 +4,6 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
-const axios = require("axios");
-const moment = require("moment");
-const { cookie } = require("request");
 const { getSteps, getSleep, getHeartRate, mapperData } = require("./services");
 require("./config/auth");
 

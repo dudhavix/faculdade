@@ -52,12 +52,3 @@ module.exports = {
 function getAuthorization(accessToken) {
     return { authorization: `Bearer ${accessToken}` }
 }
-
-function getAggregateBy(dataTypeName, dataSourceId, start = null, end = null, durationMillis = 86400000, format = "DDMMYYYY") {
-    return {
-        aggregateBy: [{ dataTypeName, dataSourceId }],
-        bucketByTime: { durationMillis }, // 86400000 is 24 hours
-        startTimeMillis: start ? moment(start, format).valueOf() : moment().valueOf(),
-        endTimeMillis: end ? moment(end, format).valueOf() : moment().valueOf()
-    };
-}

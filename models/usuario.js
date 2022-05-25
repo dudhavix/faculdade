@@ -10,23 +10,11 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    given_name: {
-        type: String,
-        required: true,
-    },
-    family_name: {
-        type: String,
-        required: true,
-    },
     picture: {
         type: String,
         required: true,
     },
     email: {
-        type: String,
-        required: true,
-    },
-    email_verified: {
         type: String,
         required: true,
     },
