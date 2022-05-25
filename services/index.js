@@ -23,35 +23,30 @@ module.exports = {
         }, { headers: getAuthorization(token) })
     },
 
-    mapperSteps: (data) => {
-        const bucketArr = data.data.bucket;
-        let heartRateArr = [];
-
-        for (const item of bucketArr) {
-            for (const dataset of item.dataset) {
-                for (const point of dataset.point) {
-                    heartRateArr.push({ point });
-                }
-            }
-        }
-
-        return heartRateArr;
+    getHeartRate: async function (token) {
+        return axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
+            "aggregateBy": [{
+                "dataTypeName": "com.google.heart_rate.bpm",
+            }],
+            "startTimeMillis": new Date("Tue May 21 2022").getTime(),
+            "endTimeMillis": new Date("Tue May 22 2022").getTime()
+        }, { headers: getAuthorization(token) })
     },
 
-    mapperSleeps: (data) => {
+    mapperData: (data) => {
         const bucketArr = data.data.bucket;
-        let heartRateArr = [];
+        let newDateList = [];
 
         for (const item of bucketArr) {
             for (const dataset of item.dataset) {
                 for (const point of dataset.point) {
-                    heartRateArr.push({ point });
+                    newDateList.push({ point });
                 }
             }
         }
 
-        return heartRateArr;
-    }
+        return newDateList;
+    },
 }
 
 function getAuthorization(accessToken) {

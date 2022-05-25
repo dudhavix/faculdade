@@ -7,7 +7,7 @@ const cors = require("cors");
 const axios = require("axios");
 const moment = require("moment");
 const { cookie } = require("request");
-const { getSteps, mapperSteps, getSleep, mapperSleeps } = require("./services");
+const { getSteps, getSleep, getHeartRate, mapperData } = require("./services");
 require("./config/auth");
 
 const app = express();
@@ -45,19 +45,25 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/home", isLoggedIn, (req, res) => {
-    res.send("<a href='/steps'> Steps </a> --- <a href='/sleep'> Sleep </a> --- <a href=''> Ritmo cardiáco </a>")
+    res.send("<a href='/steps'> Steps </a> --- <a href='/sleep'> Sleep </a> --- <a href='/heartRate'> Ritmo cardiáco </a>")
 });
 
 app.get("/steps", isLoggedIn, async (req, res) => {
     const stepsData = await getSteps(req.user.accessToken);
-    const steps = mapperSteps(stepsData);
+    const steps = mapperData(stepsData);
     res.send(steps);
 });
 
 app.get("/sleep", isLoggedIn, async (req, res) => {
     const sleepData = await getSleep(req.user.accessToken);
-    const sleep = mapperSleeps(sleepData);
+    const sleep = mapperData(sleepData);
     res.send(sleep);
+});
+
+app.get("/heartRate", isLoggedIn, async (req, res) => {
+    const heartRateData = await getHeartRate(req.user.accessToken);
+    const heartRate = mapperData(heartRateData);
+    res.send(heartRate);
 });
 
 app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
