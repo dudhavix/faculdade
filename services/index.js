@@ -8,9 +8,11 @@ module.exports = {
                 "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
             }],
             "bucketByTime": { "durationMillis": 86400000 },
-            "startTimeMillis": new Date("Tue May 24 2022").getTime(),
+            "startTimeMillis": new Date("Wed May 25 2022").getTime(),
             "endTimeMillis": new Date().getTime()
-        }, { headers: getAuthorization(token) })
+        }, { headers: getAuthorization(token) }).catch(erro => {
+            console.log(erro.response.data);
+        })
     },
 
     getSleep: async function (token) {

@@ -47,14 +47,19 @@ app.get("/home", isLoggedIn, (req, res) => {
 
 app.get("/steps", isLoggedIn, async (req, res) => {
     const stepsData = await getSteps(req.user.accessToken);
-    const steps = mapperData(stepsData);
-    res.send(steps);
+    console.log(stepsData);
+    if(!stepsData){
+        res.send("erro");
+    }else{
+        const steps = mapperData(stepsData);
+        res.send(steps);
+    }
 });
 
 app.get("/sleep", isLoggedIn, async (req, res) => {
     const sleepData = await getSleep(req.user.accessToken);
-    const sleep = mapperData(sleepData);
-    res.send(sleep);
+    //const sleep = mapperData(sleepData);
+    res.send(sleepData);
 });
 
 app.get("/heartRate", isLoggedIn, async (req, res) => {
