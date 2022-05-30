@@ -1,118 +1,176 @@
 <template>
-    <div>
-        <div class="mt-4 px-4 col-12">
-            <h6>Comunidades</h6>
+    <div class="mt-6">
+
+
+        <div class="col-12 px-4 my-3">
+            <div class="card"
+                :style="{ backgroundImage: 'url(' + require('../assets/bg-03.jpg') + ')', backgroundPositionX: '50%', backgroundPositionY: '50%' }"
+                loading="fast">
+                <div class="card-body text-white">
+                    <h4 class="text-white">Comunidades</h4>
+                    <p>Encontre um novo desafio!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 px-4 mb-3 mt-4">
+            <div class="input-group">
+                <input type="text" placeholder="Procure por comunidades" class="form-control">
+                <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+            </div>
         </div>
 
         <div class="col-12 px-4 mb-6">
             <div class="row">
-                <div v-for="(comunidade, index) in comunidades" :key="index" class="col-6 my-2">
-                    <div class="card">
-                        <div class="card-body py-2">
-                            <div class="">
-                                <i :class="comunidade.icon"></i>
+                <div v-for="(comunidade, index) in comunidades" :key="index" class="col-12 my-2">
+                    <div class="card" data-bs-toggle="modal" @click="setComunidadeID(comunidade._id)" data-bs-target="#modal-perfil-comunidade">
+                        <div class="card-body py-3">
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <h6 class="text-truncate m-0 lh-sm" data-bs-toggle="tooltip" data-bs-placement="top" :title="comunidade.nome">{{ comunidade.nome }}</h6>
+                                    <p class="small lh-sm">{{comunidade.initiated.split(" ")[0]}} - {{comunidade.finished.split(" ")[0]}}</p>
+                                    <p class="small lh-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sequi vero!</p>
+                                </div>
+
+                                <div class="col-6 text-center">
+                                    <small class="text-muted">Participantes</small>
+                                    <h4>{{comunidade.participantes.toLocaleString("pt-br")}}</h4>
+                                </div>
+                                
+                                <div class="col-6 text-center">
+                                    <small class="text-muted">Meta</small>
+                                    <h4>{{ comunidade.meta.toLocaleString("pt-br") }}</h4>
+                                </div>
+
                             </div>
-                            <div class="">
-                                <h6 class="text-truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    :title="comunidade.nome">{{ comunidade.nome }}</h6>
-                            </div>
-                            <h6 class="card-text text-muted m-0">
-                                <span>{{ comunidade.metaPassos.toLocaleString("pt-br") }}</span><br>
-                                <small>{{ comunidade.suaPosicao }}º {{ comunidade.seuNumeroPassos.toLocaleString("pt-br") }}</small>
-                            </h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <Menu />
+        <Menu/>
+        <ModalPerfilComunidade :comunidade="modal.comunidade" :carregando="modal.carregando"/>
     </div>
 </template>
 
 <script>
 import Menu from "../components/menu.vue";
+import ModalPerfilComunidade from "../components/modal-perfil-comunidade.vue";
 
 export default {
     name: "Comunidades",
 
     data() {
         return {
+            pesquisa: "",
             usuario: {
                 metaPessoal: 7500,
                 totalPassos: 3743,
                 historicoAtividades: [1230, 7229, 6448, 8369, 6442, 3720, 2760]
             },
 
-            comunidades: [{
-                nome: "Unisales TI",
-                icon: "bi bi-robot",
-                metaPassos: 5000,
-                suaPosicao: "3",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Grifos",
-                icon: "bi bi-globe",
-                metaPassos: 15000,
-                suaPosicao: "25",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }, {
-                nome: "Unisales Professores",
-                icon: "bi bi-mortarboard-fill",
-                metaPassos: 10000,
-                suaPosicao: "12",
-                seuNumeroPassos: 3743
-            }],
+            comunidades: this.$store.state.comunidades,
 
-            configGraficos: {
-                steps: 2500,
-                height: "150px"
+            modal: {
+                comunidade: null,
+                carregando: true,
             }
         }
     },
 
     components: {
-        Menu
-    }
+        Menu,
+        ModalPerfilComunidade
+    },
+
+    methods: {
+        setComunidadeID(comunidadeID) {
+            this.modal.carregando = true;
+            this.modal.comunidade = {
+                _id: "628daaae9bd0b369008968d9",
+                nome: "Unisales TI",
+                descricao: "Deserunt consequuntur et distinctio vitae provident enim accusantium ab dolor fugiat dolore ipsum fugit aliquam ipsam numquam omnis minus non, iste expedita",
+                meta: 45000,
+                privacidade: "PUBLICO",
+                status: "ATIVO",
+                created: "",
+                initiated: "30/05/2022 00:00:00",
+                finished: "31/05/2022 23:59:59",
+                participantes: {
+                    length: 14585,
+                    usuarios: [{
+                        name: "Duda1 Santos",
+                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
+                    },{
+                        name: "Duda2 Santos",
+                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
+                    },{
+                        name: "Duda3 Santos",
+                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
+                    },{
+                        name: "Duda4 Santos",
+                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
+                    },{
+                        name: "Duda5 Santos",
+                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
+                    },]
+                }
+            };
+            this.modal.carregando = false;
+        },
+    },
 }
 </script>
 
 
+<style scoped>
+.border-blue {
+    border-color: #6bb3f1 !important;
+    height: 70px;
+    width: 70px;
+}
 
+.form-control {
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    color: #495057;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #d2d6da;
+    appearance: none;
+    border-radius: 1.375rem;
+    transition: 0.2s ease;
+    padding: 0.5rem 0.75rem;
+}
+
+.input-group>.form-control:focus,
+.input-group>.form-select:focus {
+    z-index: 0;
+}
+
+.input-group {
+    border-radius: 1.375rem;
+}
+
+.input-group .input-group-text {
+    right: 1rem;
+}
+
+.input-group .input-group-text i {
+    color: #d2d6da;
+}
+
+small,
+.small {
+    font-size: 0.85rem;
+}
+
+.mtSmall {
+    font-size: 0.6rem;
+}
+</style>

@@ -12,7 +12,7 @@ const routes = [
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'login',
         component: function () {
             return import('../views/Login.vue')
         }

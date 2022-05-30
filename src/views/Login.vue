@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="page-header align-items-start min-vh-100"
-            :style="{ backgroundImage: 'url(' + require('../assets/tela-login.jpg') + ')', backgroundPositionX: '100%' }"
+            :style="{ backgroundImage: 'url(' + require('../assets/bg-03.jpg') + ')', backgroundPositionX: '50%' }"
             loading="fast">
             <span class="mask bg-gradient-dark opacity-6"></span>
 
