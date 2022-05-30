@@ -16,8 +16,7 @@
 
         <div class="mb-5 p-4 col-12">
             <div class="d-flex justify-content-between">
-                <p class="fw-bold">Comunidades</p>
-                <router-link to=""><small class="text-info">detalhes</small></router-link>
+                <p class="fw-bold">Comunidades </p>
             </div>
 
             <!-- Comunidades -->
@@ -69,6 +68,7 @@ export default {
     components: {
         Menu
     },
+
     data() {
         return {
             usuario: {
@@ -109,7 +109,7 @@ export default {
             var ctx = document.getElementById("atividades").getContext("2d");
 
             const metaPessoal = [];
-            for (let index = 0; index < 6; index++) {
+            for (let index = 0; index < 7; index++) {
                 metaPessoal.push(this.usuario.metaPessoal)
             }
 
@@ -195,6 +195,10 @@ export default {
 </script>
 
 <style scoped>
+
+.navbar{
+    background-color: white;
+}
 .border-blue {
     border-color: #6bb3f1 !important;
     height: 150px;

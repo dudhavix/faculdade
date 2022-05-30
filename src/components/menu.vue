@@ -20,14 +20,23 @@
                 </h4>
             </router-link>
 
-            <router-link :to="{ name: 'configuracoes' }">
+            <router-link :to="{ name: 'perfil' }">
+                <h4 v-if="menuAtivo.perfil" class="active">
+                    <i class="bi bi-person-fill"></i>
+                </h4>
+                <h4 v-else class="text-color-cinza">
+                    <i class="bi bi-person"></i>
+                </h4>
+            </router-link>
+
+            <!-- <router-link :to="{ name: 'configuracoes' }">
                 <h4 v-if="menuAtivo.configuracoes" class="active">
                     <i class="bi bi-gear-fill"></i>
                 </h4>
                 <h4 v-else class="text-color-cinza">
                     <i class="bi bi-gear"></i>
                 </h4>
-            </router-link>
+            </router-link> -->
 
         </div>
     </nav>
@@ -42,7 +51,8 @@ export default {
             menuAtivo: {
                 home: false,
                 comunidades: false,
-                configuracoes: false
+                // configuracoes: false,
+                perfil: false,
             }
         }
     },
@@ -53,22 +63,29 @@ export default {
                 case "comunidades":
                     this.menuAtivo.home = false;
                     this.menuAtivo.comunidades = true;
-                    this.menuAtivo.notificacao = false;
-                    this.menuAtivo.configuracoes = false;
+                    this.menuAtivo.perfil = false;
+                    // this.menuAtivo.configuracoes = false;
                     break;
                 
-                case "configuracoes":
+                // case "configuracoes":
+                //     this.menuAtivo.home = false;
+                //     this.menuAtivo.comunidades = false;
+                //     this.menuAtivo.perfil = false;
+                //     // this.menuAtivo.configuracoes = true;
+                //     break;
+
+                case "perfil":
                     this.menuAtivo.home = false;
                     this.menuAtivo.comunidades = false;
-                    this.menuAtivo.notificacao = false;
-                    this.menuAtivo.configuracoes = true;
+                    this.menuAtivo.perfil = true;
+                    // this.menuAtivo.configuracoes = false;
                     break;
             
                 default:
                     this.menuAtivo.home = true;
                     this.menuAtivo.comunidades = false;
-                    this.menuAtivo.notificacao = false;
-                    this.menuAtivo.configuracoes = false;
+                    this.menuAtivo.perfil = false;
+                    // this.menuAtivo.configuracoes = false;
                     break;
             }
             return ;

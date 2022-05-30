@@ -24,7 +24,7 @@
                             </p>
                         </div>
 
-                        <button class="btn btn-icon btn-light rounded-pill d-flex justify-content-between align-items-center" type="button">
+                        <button @click="login" class="btn btn-icon btn-light rounded-pill d-flex justify-content-between align-items-center" type="button">
                             Entre
                             <span class="h4 mb-0 ms-4">
                                 <i class="bi bi-arrow-right-short"></i>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import requestsService from "../services/requests";
+
 import Footer from "../components/footer.vue"
 
 export default {
@@ -54,12 +56,20 @@ export default {
         }
     },
 
+    methods:{
+        login(){
+            requestsService.login().then(resposta => {
+                console.log(resposta);
+            }).catch(erro => {
+                console.log(erro);
+            })
+        }
+    },
+
     created() { },
 
     mounted() {
     },
-
-    methods: {},
 };
 </script>
 
