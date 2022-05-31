@@ -6,10 +6,13 @@ const passport = require("passport");
 const cors = require("cors");
 const path = require("path");
 const { getSteps, getSleep, getHeartRate, mapperData } = require("./services");
+const { createComunidade, getComunidades } = require("./services/comunidade");
 require("./config/auth");
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // app.set("views", path.join(__dirname, "views"));
@@ -22,10 +25,6 @@ function isLoggedIn(req, res, next) {
 app.use(session({ secret: 'cats', name: 'sessionId', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get('/', (req, res) => {
-    res.redirect("/login")
-});
 
 app.get('/oauth', passport.authenticate('google', { scope: process.env.SCOPES }));
 
@@ -65,6 +64,20 @@ app.get("/heartRate", isLoggedIn, async (req, res) => {
     const heartRateData = await getHeartRate(req.user.accessToken);
     const heartRate = mapperData(heartRateData);
     res.send(heartRate);
+});
+
+// COMUNIDADE
+
+app.post("/create-comunidade", async (req, res) => {
+    await createComunidade(req.body, res);
+});
+
+app.get('/read-comunidades', async (req, res) => {;
+    await getComunidades(res)
+});
+
+app.get('/desativar-comunidade/:_id', async (req, res) => {;
+    await getComunidades(res)
 });
 
 app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
