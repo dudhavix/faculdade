@@ -2,13 +2,13 @@
     <div class="">
 
         <div class="py-4 col-12 d-flex justify-content-center bg-white">
-            <div class="border border-5 border-aqua rounded-circle d-flex justify-content-center align-items-center">
-                <div
-                    class="border border-5 border-blue rounded-circle d-flex justify-content-center align-items-center">
+            <div class="border border-5 border-azul-strong rounded-circle d-flex justify-content-center align-items-center">
+                <div class="border border-5 border-blue rounded-circle d-flex justify-content-center align-items-center">
                     <div class="text-center">
-                        <small class="m-0">{{ usuario.metaPessoal.toLocaleString("pt-br") }}</small>
-                        <h1 class="m-0">{{ usuario.totalPassos.toLocaleString("pt-br") }}</h1>
-                        <small class="m-0">passos</small>
+                        <!-- <small class="m-0">{{ usuario.metaPessoal.toLocaleString("pt-br") }}</small> -->
+                        <h1 class="m-0 text-azul-strong">{{ usuario.pontosCardio.toLocaleString("pt-br") }}</h1>
+                        <h3 class="m-0 text-azul">{{ usuario.totalPassos.toLocaleString("pt-br") }}</h3>
+                        <small class="m-0 text-muted text-center">meta diária</small>
                     </div>
                 </div>
             </div>
@@ -74,6 +74,7 @@ export default {
             usuario: {
                 metaPessoal: 7500,
                 totalPassos: 3743,
+                pontosCardio: 3,
                 historicoAtividades: [1230, 7229, 6448, 8369, 6442, 3720, 2760]
             },
 
@@ -195,7 +196,12 @@ export default {
 </script>
 
 <style scoped>
-
+.text-azul-strong{
+    color: #1a73e8;
+}
+.text-azul{
+    color: #6bb3f1;
+}
 .navbar{
     background-color: white;
 }
@@ -205,8 +211,8 @@ export default {
     width: 150px;
 }
 
-.border-aqua {
-    border-color: #6bf1cf !important;
+.border-azul-strong {
+    border-color: #1a73e8 !important;
     height: 165px;
     width: 165px;
 }

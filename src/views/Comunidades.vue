@@ -1,8 +1,8 @@
 <template>
-    <div class="mt-6">
+    <div class="mt-4">
 
 
-        <div class="col-12 px-4 my-3">
+        <!-- <div class="col-12 px-4 my-3">
             <div class="card"
                 :style="{ backgroundImage: 'url(' + require('../assets/bg-03.jpg') + ')', backgroundPositionX: '50%', backgroundPositionY: '50%' }"
                 loading="fast">
@@ -11,14 +11,26 @@
                     <p>Encontre um novo desafio!</p>
                 </div>
             </div>
+        </div> -->
+
+        <div class="col-12 px-4 mb-3">
+            <div class="d-grid gap-2">
+                <button class="m-0 btn btn-primary rounded-pill" type="button">Criar</button>
+            </div>
         </div>
 
-        <div class="col-12 px-4 mb-3 mt-4">
+        <div class="col-12 px-4 mb-3">
             <div class="input-group">
                 <input type="text" placeholder="Procure por comunidades" class="form-control">
                 <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
             </div>
         </div>
+
+        <div class="col-12 px-4 mb-3">
+            <div class="d-grid gap-2">
+                <button class="m-0 btn btn-primary rounded-pill" type="button">Criar</button>
+            </div>
+        </div>  
 
         <div class="col-12 px-4 mb-6">
             <div class="row">
