@@ -11,45 +11,48 @@ export default new Vuex.Store({
                 _id: "628daaae9bd0b369008968d9",
                 sub: "109648348890999991353",
                 name: "Duda Santos",
-                picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
+                picture: "https://lh3.googleusercontent.com/-UTu1Vfwvuuw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck4g4Olt159nat0eLfdRgZyDrkMQA/s128-c/photo.jpg",
                 email: "dudu.amelhor@gmail.com",
                 locale: "pt-BR",
                 __v: 0
             },
-            accessToken: "ya29.a0ARrdaM960W2nH9f7hBMgK6HghC-fvOLYwE3xbJlkDi0FDOgdSBxMuKrbTC_cIKkQQLn372Fr6HSKk2JNQhuim2r6PY5KHD4novEGr5ZUYFolOGgyZgGdFqtfnQOYr8WHPvoufCoyLk7dbEOUltXYeVvHXkFD"
+            accessToken: "ya29.a0ARrdaM8l-1fLHL4qOC4uWt7caBitVQBYGVp_xkNUvnJRt5ws_WJVP5LM15LT0AZJFUpxdnFtkCpVMLqEHnlet8-cFyY-TJDcLWhBBwbasgOHUbErelHxmy5BCe1ueJ85UkmzagOYMyRbrMqFOQaGj5sNo-3u"
         },
         comunidades: [{
             _id: "628daaae9bd0b369008968d9",
-            nome: "Unisales TI",
+            nome: "Deserunt",
             descricao: "Deserunt consequuntur et distinctio vitae provident enim accusantium ab dolor fugiat dolore ipsum fugit aliquam ipsam numquam omnis minus non, iste expedita",
             meta: 45000,
             privacidade: "PUBLICO",
+            foto: "img/1.471ef33b.png",
             status: "ATIVO",
-            created: "",
-            initiated: "30/05/2022 00:00:00",
-            finished: "31/05/2022 23:59:59",
             participantes: 15
         }, {
             _id: "628daaae9bd0b369008968d9",
-            nome: "Unisales Grifos",
+            nome: "Deserunt",
             descricao: "Deserunt consequuntur et distinctio vitae provident enim accusantium ab dolor fugiat dolore ipsum fugit aliquam ipsam numquam omnis minus non, iste expedita",
             meta: 50000,
             privacidade: "PUBLICO",
+            foto: "img/2.8452ee18.png",
             status: "ATIVO",
-            created: "",
-            initiated: "01/06/2022 08:00:00",
-            finished: "30/06/2022 23:59:59",
             participantes: 85
         }, {
             _id: "628daaae9bd0b369008968d9",
-            nome: "Unisales Professores",
+            nome: "Deserunt",
             descricao: "Deserunt consequuntur et distinctio vitae provident enim accusantium ab dolor fugiat dolore ipsum fugit aliquam ipsam numquam omnis minus non, iste expedita",
             meta: 52500,
             privacidade: "PUBLICO",
+            foto: "img/3.fc2963e4.png",
             status: "ATIVO",
-            created: "",
-            initiated: "05/06/2022 05:00:00",
-            finished: "31/07/2022 23:59:59",
+            participantes: 150000
+        }, {
+            _id: "628daaae9bd0b369008968d9",
+            nome: "Deserunt",
+            descricao: "Deserunt consequuntur et distinctio vitae provident enim accusantium ab dolor fugiat dolore ipsum fugit aliquam ipsam numquam omnis minus non, iste expedita",
+            meta: 52500,
+            privacidade: "PUBLICO",
+            foto: "img/4.4e23f343.png",
+            status: "ATIVO",
             participantes: 150000
         }],
         enum: {

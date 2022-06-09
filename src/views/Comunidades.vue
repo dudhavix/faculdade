@@ -14,23 +14,8 @@
         </div> -->
 
         <div class="col-12 px-4 mb-3">
-            <div class="d-grid gap-2">
-                <button class="m-0 btn btn-primary rounded-pill" type="button">Criar</button>
-            </div>
+            <CriarComunidade/>
         </div>
-
-        <div class="col-12 px-4 mb-3">
-            <div class="input-group">
-                <input type="text" placeholder="Procure por comunidades" class="form-control">
-                <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
-            </div>
-        </div>
-
-        <div class="col-12 px-4 mb-3">
-            <div class="d-grid gap-2">
-                <button class="m-0 btn btn-primary rounded-pill" type="button">Criar</button>
-            </div>
-        </div>  
 
         <div class="col-12 px-4 mb-6">
             <div class="row">
@@ -38,23 +23,19 @@
                     <div class="card" data-bs-toggle="modal" @click="setComunidadeID(comunidade._id)" data-bs-target="#modal-perfil-comunidade">
                         <div class="card-body py-3">
                             <div class="row">
-
-                                <div class="col-12">
+                                <div class="col-12 my-3">
                                     <h6 class="text-truncate m-0 lh-sm" data-bs-toggle="tooltip" data-bs-placement="top" :title="comunidade.nome">{{ comunidade.nome }}</h6>
-                                    <p class="small lh-sm">{{comunidade.initiated.split(" ")[0]}} - {{comunidade.finished.split(" ")[0]}}</p>
-                                    <p class="small lh-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sequi vero!</p>
+                                    <p class="small lh-sm m-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sequi vero!</p>
                                 </div>
 
                                 <div class="col-6 text-center">
                                     <small class="text-muted">Participantes</small>
                                     <h4>{{comunidade.participantes.toLocaleString("pt-br")}}</h4>
                                 </div>
-                                
-                                <div class="col-6 text-center">
-                                    <small class="text-muted">Meta</small>
-                                    <h4>{{ comunidade.meta.toLocaleString("pt-br") }}</h4>
-                                </div>
 
+                                <div class="col-6 text-center">
+                                    <img class="w-50" :src="comunidade.foto" alt="">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,12 +45,14 @@
 
         <Menu/>
         <ModalPerfilComunidade :comunidade="modal.comunidade" :carregando="modal.carregando"/>
+        
     </div>
 </template>
 
 <script>
 import Menu from "../components/menu.vue";
 import ModalPerfilComunidade from "../components/modal-perfil-comunidade.vue";
+import CriarComunidade from "../components/criar-cuminidade.vue";
 
 export default {
     name: "Comunidades",
@@ -94,7 +77,8 @@ export default {
 
     components: {
         Menu,
-        ModalPerfilComunidade
+        ModalPerfilComunidade,
+        CriarComunidade
     },
 
     methods: {

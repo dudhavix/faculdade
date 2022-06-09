@@ -1,12 +1,20 @@
 <template>
-    <nav class="d-flex justify-content-end navbar p-3 top-0 z-index-3 w-100 rounded-bottom navbar-light ">
-        <a href="javascript:;" class="mx-4">
-            <i class="bi bi-info-circle"></i>
-        </a>
-
-        <a href="javascript:;" class="avatar avatar-sm rounded-circle">
-            <img alt="Image placeholder" :src="user.usuario.picture">
-        </a>
+    <nav class="d-flex justify-content-between navbar p-3 top-0 z-index-3 w-100 rounded-bottom navbar-light ">
+        <h4 class="m-0 text-capitalize">{{ $route.name }}</h4>
+        <div class="d-flex justify-content-end align-items-center">
+            <a href="javascript:;" class="mx-4">
+                <i class="bi bi-info-circle"></i>
+            </a>
+            <div class="dropdown">
+                <a class="avatar avatar-sm rounded-circle" href="#" role="button" id="dropdownMenuLink"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="rounded-circle" alt="Image placeholder" :src="user.usuario.picture">
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li class="text-end" @click="logout"><a class="dropdown-item" href="#">Sair</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
 </template>
 
@@ -18,5 +26,11 @@ export default {
             user: this.$store.state.user
         }
     },
+
+    methods: {
+        logout: () => {
+            alert("sair");
+        }
+    }
 }
 </script>

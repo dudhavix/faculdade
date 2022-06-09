@@ -58,18 +58,23 @@
 
                             <div class="avatar-group ">
                                 <a v-for="(usuario, index) in comunidade.participantes.usuarios" :key="index"
-                                    href="javascript:;" class="avatar rounded-circle" >
+                                    href="javascript:;" class="avatar rounded-circle"
+                                    tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" :title="usuario.name">
                                     <img alt="Image placeholder" :src="usuario.picture">
-                                    <span class="bg-white tooltips">{{usuario.name}}</span>
                                 </a>
-
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="modal-footer justify-content-center pb-4">
-                    <button type="button" class="btn bg-gradient-primary mb-0 rounded-pill">Entrar agora</button>
+                <div class="modal-footer justify-content-center d-grid pb-4">
+                    <div class="text-center">
+                        <button type="button" class="btn bg-gradient-primary mb-0 rounded-pill">Entrar agora</button>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-sm mb-0 rounded-pill" data-bs-dismiss="modal" aria-label="Close">Agora não</button>
+                    </div>
+
                 </div>
             </div>
         </div>
