@@ -7,7 +7,7 @@
 
         <div class="col-12 px-4 mb-7">
             <div class="row">
-                <ItemComunidade :comunidades="comunidades" />
+                <ItemComunidade :comunidades="comunidades" :statusComunidade="false"/>
             </div>
         </div>
 

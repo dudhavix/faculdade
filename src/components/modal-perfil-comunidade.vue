@@ -57,13 +57,12 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="d-flex justify-content-between mt-4 pb-4">
+                <div v-if="entrar" class="d-flex justify-content-between mt-4 pb-4">
                     <div class="d-grid col-6 px-2">
                         <button type="button" class="btn btn-outline-secondary mb-0 rounded-pill"
                             data-bs-dismiss="modal" aria-label="Close">cancelar</button>
                     </div>
-
+{{entrar}}
                     <div class="d-grid col-6 px-2">
                         <button type="button" class="btn btn-primary mb-0 rounded-pill">Entrar</button>
                     </div>
@@ -83,6 +82,9 @@ export default {
         },
         carregando: {
             type: Boolean
+        },
+        entrar: {
+            type: String
         }
     },
 

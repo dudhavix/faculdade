@@ -25,6 +25,7 @@
 
                         <h6 class="text-center mt-5">Talvez você se interesse</h6>
                         
+                        <ItemComunidade :comunidades="comunidades" :statusComunidade="true"/>
 
                     </div>
                     
@@ -35,8 +36,20 @@
 </template>
 
 <script>
+import ItemComunidade from "./item-comunidade.vue";
+
 export default {
-    name: "PesquisarComunidade"
+    name: "PesquisarComunidade",
+
+    data() {
+        return {
+            comunidades: this.$store.state.comunidades,
+        }
+    },
+
+    components: {
+        ItemComunidade
+    }
 }
 </script>
 

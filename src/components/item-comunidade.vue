@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <ModalPerfilComunidade :carregando="carregando" :comunidade="comunidade"/>
+        <ModalPerfilComunidade :carregando="carregando" :comunidade="comunidade" :entrar="statusComunidade"/>
     </div>
 </template>
 
@@ -38,6 +38,9 @@ export default {
         comunidades: {
             type: Array
         },
+        statusComunidade: {
+            type: Boolean
+        }
     },
 
     data() {
