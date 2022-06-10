@@ -15,11 +15,11 @@
         </div>
 
         <div class="mb-5 p-4 col-12">
-            <div class="d-flex justify-content-between">
+            <!-- <div class="d-flex justify-content-between">
                 <p class="fw-bold">Comunidades </p>
             </div>
 
-            <!-- Comunidades -->
+            Comunidades
             <div class="row d-flex justify-content-around">
                 <div class="card-group d-flex" id="list-comunidade">
                     <div v-for="(comunidade, index) in comunidades" :key="index" class="card col-5 p-0 mx-1">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Atividades -->
             <div class="row d-flex justify-content-center">

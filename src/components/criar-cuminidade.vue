@@ -7,65 +7,82 @@
 
         <div class="modal fade" id="modal-criar-comunidade" tabindex="-1" aria-labelledby="modal-criar-comunidade"
             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h6 class="modal-title" id="modal-criar-comunidade">Nova comunidade</h6>
-                        <button type="button" class="btn-close d-flex align-items-center" data-bs-dismiss="modal"
-                            aria-label="Close">
-                            <i class="bi bi-x"></i>
-                        </button>
+                    <div class="modal-header d-flex justify-content-start">
+                        <span data-bs-dismiss="modal">
+                            <i class="bi bi-arrow-left"></i>
+                        </span>
                     </div>
                     <div class="modal-body">
-                        
 
-                        <div class="row mt-4">
+                        <h5 class="text-center">Crie sua comunidade</h5>
+                        <p class="text-center lh-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
+                            earum nam ducimus doloremque ipsa animi!</p>
 
-                            <div class="col-12 form-floating mb-4">
-                                <input required type="text" v-model="novaComunidade.nome" class="form-control">
-                                <label>Nome</label>
+                        <div class="card p-3">
+                            <div class="row">
+                                <div class="mb-3">
+                                    <label for="">Nome</label>
+                                    <input type="text" class="form-control rounded-pill" id=""
+                                        placeholder="Nome da comunidade">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="Descrição">Descrição</label>
+                                    <textarea class="form-control" placeholder="Descrição da comunidade" cols="30"
+                                        rows="4" style="border-radius: 1.375rem;"></textarea>
+                                </div>
                             </div>
-
-                            <div class="col-12 form-floating mb-4">
-                                <textarea required v-model="novaComunidade.descricao" class="form-control"></textarea>
-                                <label>Descrição</label>
-                            </div>
-
-                            <div class="col-6 form-floating mb-4">
-                                <input type="tel" v-model="novaComunidade.meta" class="form-control">
-                                <label>Meta</label>
-                            </div>
-
-                            
-
-
-                            <div class="col-6 form-floating mb-4">
-                                <input type="date" v-model="novaComunidade.inicioDesafio" class="form-control">
-                                <label>Inicio do desafio</label>
-                            </div>
-
-                            <div class="col-6 form-floating mb-4">
-                                <input type="date" v-model="novaComunidade.fimDesafio" class="form-control">
-                                <label>Fim do desafio</label>
-                            </div>
-
-
-                            <div class="col-6 form-floating mb-4">
-                                <select v-model="novaComunidade.privacidade" class="form-control">
-                                    <option :value="$store.state.enum.PUBLICO" class="text-capitalize">{{$store.state.enum.PUBLICO}}</option>
-                                    <option :value="$store.state.enum.PRIVADO" class="text-capitalize">{{$store.state.enum.PRIVADO}}</option>
-                                </select>
-                                
-                                <label>Privacidade</label>
-                            </div>
-
                         </div>
 
+                        <div class="card mt-4 p-3">
+                            <div class="row">
+                                <div class="">
+                                    <label for="">Quem pode convidar?</label>
+                                    <br>
+                                    <div class="d-flex">
+                                        <div class="form-check form-check-inline mb-3">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="customRadio1">
+                                            <label class="form-check-label" for="customRadio1">Somente eu</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="customRadio2">
+                                            <label class="form-check-label" for="customRadio2">Todos</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4 p-3">
+                            <div class="row">
+                                <label for="">Selecione uma imagem</label>
+                                <br>
+                                <div v-for="(foto, index) in imagemComunidade" :key="index" class="col-4 p-2">
+                                    <div :class="index == imagemComunidadeSelecionada ? 'border-primary' : ''"
+                                        class="border rounded-circle p-3"
+                                        @click="selecionarImagem(foto, index)">
+                                        <img class="w-100" :src="`${$store.state.hostServidor}${foto}`" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pb-4">
+                            <div class="d-grid col-6 px-2">
+                                <button type="button" class="btn btn-outline-secondary mb-0 rounded-pill"
+                                    data-bs-dismiss="modal" aria-label="Close">cancelar</button>
+                            </div>
+
+                            <div class="d-grid col-6 px-2">
+                                <button type="button" class="btn btn-primary mb-0 rounded-pill">Criar</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -74,6 +91,7 @@
 
 <script>
 import moment from "moment";
+import requestService from "./../services/requests";
 
 export default {
     name: "CriarComunidade",
@@ -86,9 +104,27 @@ export default {
                 inicioDesafio: moment().add(1, 'day').format("YYYY-MM-DD"),
                 fimDesafio: moment().add(7, 'day').format("YYYY-MM-DD"),
                 privacidade: this.$store.state.enum.PRIVADO,
-            }
+            },
+            imagemComunidade: [],
+            imagemComunidadeSelecionada: null,
         }
     },
+
+    methods: {
+        carregarImagemComunidades() {
+            requestService.carregarImagemComunidades().then(resposta => {
+                this.imagemComunidade = resposta.data;
+            })
+        },
+
+        selecionarImagem(imagem, index) {
+            this.imagemComunidadeSelecionada = index;
+        }
+    },
+
+    mounted() {
+        this.carregarImagemComunidades();
+    }
 }
 </script>
 

@@ -1,58 +1,27 @@
 <template>
     <div class="mt-4">
 
-
-        <!-- <div class="col-12 px-4 my-3">
-            <div class="card"
-                :style="{ backgroundImage: 'url(' + require('../assets/bg-03.jpg') + ')', backgroundPositionX: '50%', backgroundPositionY: '50%' }"
-                loading="fast">
-                <div class="card-body text-white">
-                    <h4 class="text-white">Comunidades</h4>
-                    <p>Encontre um novo desafio!</p>
-                </div>
-            </div>
-        </div> -->
-
         <div class="col-12 px-4 mb-3">
-            <CriarComunidade/>
+            <ModalCriarComunidade />
         </div>
 
-        <div class="col-12 px-4 mb-6">
+        <div class="col-12 px-4 mb-7">
             <div class="row">
-                <div v-for="(comunidade, index) in comunidades" :key="index" class="col-12 my-2">
-                    <div class="card" data-bs-toggle="modal" @click="setComunidadeID(comunidade._id)" data-bs-target="#modal-perfil-comunidade">
-                        <div class="card-body py-3">
-                            <div class="row">
-                                <div class="col-12 my-3">
-                                    <h6 class="text-truncate m-0 lh-sm" data-bs-toggle="tooltip" data-bs-placement="top" :title="comunidade.nome">{{ comunidade.nome }}</h6>
-                                    <p class="small lh-sm m-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, sequi vero!</p>
-                                </div>
-
-                                <div class="col-6 text-center">
-                                    <small class="text-muted">Participantes</small>
-                                    <h4>{{comunidade.participantes.toLocaleString("pt-br")}}</h4>
-                                </div>
-
-                                <div class="col-6 text-center">
-                                    <img class="w-50" :src="comunidade.foto" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ItemComunidade :comunidades="comunidades" />
             </div>
         </div>
 
-        <Menu/>
-        <ModalPerfilComunidade :comunidade="modal.comunidade" :carregando="modal.carregando"/>
-        
+        <Menu />
+        <ModalPesquisarComunidade />
     </div>
 </template>
 
 <script>
 import Menu from "../components/menu.vue";
 import ModalPerfilComunidade from "../components/modal-perfil-comunidade.vue";
-import CriarComunidade from "../components/criar-cuminidade.vue";
+import ModalCriarComunidade from "../components/criar-cuminidade.vue";
+import ModalPesquisarComunidade from "../components/pesquisar-comunidade.vue";
+import ItemComunidade from "../components/item-comunidade.vue";
 
 export default {
     name: "Comunidades",
@@ -67,55 +36,15 @@ export default {
             },
 
             comunidades: this.$store.state.comunidades,
-
-            modal: {
-                comunidade: null,
-                carregando: true,
-            }
         }
     },
 
     components: {
         Menu,
         ModalPerfilComunidade,
-        CriarComunidade
-    },
-
-    methods: {
-        setComunidadeID(comunidadeID) {
-            this.modal.carregando = true;
-            this.modal.comunidade = {
-                _id: "628daaae9bd0b369008968d9",
-                nome: "Unisales TI",
-                descricao: "Deserunt consequuntur et distinctio vitae provident enim accusantium ab dolor fugiat dolore ipsum fugit aliquam ipsam numquam omnis minus non, iste expedita",
-                meta: 45000,
-                privacidade: "PUBLICO",
-                status: "ATIVO",
-                created: "",
-                initiated: "30/05/2022 00:00:00",
-                finished: "31/05/2022 23:59:59",
-                participantes: {
-                    length: 14585,
-                    usuarios: [{
-                        name: "Duda1 Santos",
-                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
-                    },{
-                        name: "Duda2 Santos",
-                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
-                    },{
-                        name: "Duda3 Santos",
-                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
-                    },{
-                        name: "Duda4 Santos",
-                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
-                    },{
-                        name: "Duda5 Santos",
-                        picture: "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c",
-                    },]
-                }
-            };
-            this.modal.carregando = false;
-        },
+        ModalCriarComunidade,
+        ModalPesquisarComunidade,
+        ItemComunidade
     },
 }
 </script>
