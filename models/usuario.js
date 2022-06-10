@@ -22,6 +22,10 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    meta: {
+        type: Number,
+        required: true,
+    }
 });
 
 const usuario = mongoose.model("usuarios", usuarioSchema);

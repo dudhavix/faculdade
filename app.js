@@ -4,9 +4,9 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
-const path = require("path");
+const fs = require("fs").promises;
 const { getSteps, getSleep, getHeartRate, mapperData } = require("./services");
-const { createComunidade, getComunidades } = require("./services/comunidade");
+const { createComunidade, getComunidades, getComunidade, updateComunidade, getMyComunidadesAdmin, deleteComunidade, getMyComunidades } = require("./services/comunidade");
 require("./config/auth");
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-// app.set("views", path.join(__dirname, "views"));
+app.use(express.static("public"));
 // app.set("view engine", "vue");
 
 function isLoggedIn(req, res, next) {
@@ -35,10 +35,11 @@ app.get("/oauth/failure", (req, res) => {
 });
 
 app.get("/login", isLoggedIn, (req, res) => {
-    res.send({user: req.user});
+    res.send({ user: req.user });
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", (req,
+    res) => {
     req.logout();
     req.session.destroy();
     res.redirect("/login");
@@ -72,12 +73,45 @@ app.post("/create-comunidade", async (req, res) => {
     await createComunidade(req.body, res);
 });
 
-app.get('/read-comunidades', async (req, res) => {;
-    await getComunidades(res)
+app.get('/read-comunidades', isLoggedIn, async (req, res) => {
+    await getComunidades(req.user.usuario._id, res)
 });
 
-app.get('/desativar-comunidade/:_id', async (req, res) => {;
-    await getComunidades(res)
+app.get('/read-comunidades/:id', async (req, res) => {
+    await getComunidade(req.params.id, res)
+});
+
+app.get('/read-my-comunidades/:idUsuario', async (req, res) => {
+    await getMyComunidades(req.params.idUsuario, res)
+});
+
+app.get('/read-my-comunidades-admin/:admin', async (req, res) => {
+    await getMyComunidadesAdmin(req.params.admin, res)
+});
+
+app.post("/update-comunidade", async (req, res) => {
+    await updateComunidade(req.body, res);
+});
+
+app.delete('/delete-comunidade/:admin/:_id', async (req, res) => {
+    await deleteComunidade(req.params._id, req.params.admin, res)
+});
+
+// ARQUIVOS
+app.get('/carregar-img-comunidades', async (req, res) => {
+    const diretorio = "./public/img-comunidades";
+    const arquivos = [];
+
+    let listaDeArquivos = await fs.readdir(diretorio);
+    for (let k in listaDeArquivos) {
+        let stat = await fs.stat(diretorio + '/' + listaDeArquivos[k]);
+        if (stat.isDirectory())
+            await listarArquivosDoDiretorio(diretorio + '/' + listaDeArquivos[k], arquivos);
+        else
+            arquivos.push('img-comunidades/' + listaDeArquivos[k]);
+    }
+
+    res.send(arquivos);
 });
 
 app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
