@@ -92,7 +92,34 @@ export default {
         abrirChat(){
             this.abrirChatComunidade({
                 idChat: this.perfilComunidade.comunidadeSelecionada._id,
-                carregando: false
+                nome: "Deserunt",
+                carregando: false,
+                conversa: [{
+                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                nome: "Teste 1",
+                message: "Deserunt consequuntur et distinctio vitae provident",
+                dataHora: "06-10-2022 21:45:45"
+            },{
+                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                nome: "Teste 2",
+                message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
+                dataHora: "06-11-2022 14:45:45"
+            },{
+                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                nome: "Teste 3",
+                message: "Deserunt",
+                dataHora: "06-11-2022 10:45:45"
+            },{
+                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                nome: "Teste 4",
+                message: "Deserunt consequuntur ",
+                dataHora: "06-11-2022 22:45:45"
+            },{
+                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                nome: "Teste 5",
+                message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
+                dataHora: "06-11-2022 23:45:45"
+            }]
             })
         }
     }

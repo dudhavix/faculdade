@@ -157,7 +157,9 @@ export default new Vuex.Store({
 
         chatComunidade: {
             idChat: null,
-            carregando: true
+            nome: null,
+            carregando: true,
+            conversa: null
         }
 
 
@@ -182,8 +184,13 @@ export default new Vuex.Store({
         fecharChatComunidade(state){
             state.chatComunidade = {
                 idChat: null,
-                carregando: true
+                carregando: true,
+                conversa: null
             };
+        },
+
+        addConversaChatComunidade(state, payload){
+            state.chatComunidade.conversa.push(payload);
         },
     },
 
