@@ -1,42 +1,49 @@
 <template>
     <div>
-        <button id="lupaComunidade" type="button" class="btn btn-primary rounded-circle" data-bs-toggle="modal" data-bs-target="#pesquisarComunidade">
+        <button id="lupaComunidade" type="button" class="btn btn-primary rounded-circle" data-bs-toggle="modal"
+            data-bs-target="#pesquisarComunidade">
             <i class="bi bi-search"></i>
         </button>
 
-        <div class="modal fade" id="pesquisarComunidade" tabindex="-1" aria-labelledby="pesquisarComunidadeLabel" aria-hidden="true">
+        <div class="modal fade" id="pesquisarComunidade" tabindex="-1" aria-labelledby="pesquisarComunidadeLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="modal-header d-flex justify-content-start">
-                        <span data-bs-dismiss="modal">
-                            <i class="bi bi-arrow-left"></i>
-                        </span>
-                    </div>
+                            <span data-bs-dismiss="modal">
+                                <i class="bi bi-arrow-left"></i>
+                            </span>
+                        </div>
                     </div>
                     <div class="modal-body">
                         <h5 class="text-center">Encontre</h5>
                         <p class="text-center lh-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Informe o ID da comunidade" aria-label="Informe o ID da comunidade" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" placeholder="Informe o ID da comunidade"
+                                aria-label="Informe o ID da comunidade" aria-describedby="basic-addon2">
                             <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
                         </div>
 
                         <h6 class="text-center mt-5">Talvez você se interesse</h6>
                         
-                        <ItemComunidade :comunidades="comunidades" :statusComunidade="true"/>
+                        <ListaComunidade :listaComunidades="comunidades" :entrarComunidade="true"/>
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>
+
+
+
+
     </div>
 </template>
 
 <script>
-import ItemComunidade from "./item-comunidade.vue";
+import ListaComunidade from "./lista-comunidade.vue";
 
 export default {
     name: "PesquisarComunidade",
@@ -47,8 +54,11 @@ export default {
         }
     },
 
+    methods: {
+    },
+
     components: {
-        ItemComunidade
+        ListaComunidade
     }
 }
 </script>
@@ -87,8 +97,8 @@ export default {
     color: #d2d6da;
 }
 
-#lupaComunidade{
-    position:fixed;
+#lupaComunidade {
+    position: fixed;
     top: 90vh;
     left: 85vw;
     padding: 0;

@@ -7,21 +7,24 @@
 
         <div class="col-12 px-4 mb-7">
             <div class="row">
-                <ItemComunidade :comunidades="comunidades" :statusComunidade="false"/>
+                <ListaComunidade :listaComunidades="comunidades" :entrarComunidade="false"/>
             </div>
         </div>
 
-        <Menu />
+        <Menu/>
         <ModalPesquisarComunidade />
+        <ModalPerfilComunidade/>
+        <ModalChatComunidade/>
     </div>
 </template>
 
 <script>
 import Menu from "../components/menu.vue";
-import ModalPerfilComunidade from "../components/modal-perfil-comunidade.vue";
-import ModalCriarComunidade from "../components/criar-cuminidade.vue";
-import ModalPesquisarComunidade from "../components/pesquisar-comunidade.vue";
-import ItemComunidade from "../components/item-comunidade.vue";
+import ListaComunidade from "../components/comunidade/lista-comunidade.vue";
+import ModalCriarComunidade from "../components/comunidade/criar-comunidade.vue";
+import ModalPesquisarComunidade from "../components/comunidade/pesquisar-comunidade.vue";
+import ModalPerfilComunidade from "../components/comunidade/perfil-comunidade.vue";
+import ModalChatComunidade from "../components/comunidade/chat-comunidade.vue";
 
 export default {
     name: "Comunidades",
@@ -35,16 +38,17 @@ export default {
                 historicoAtividades: [1230, 7229, 6448, 8369, 6442, 3720, 2760]
             },
 
-            comunidades: this.$store.state.comunidades,
+            comunidades: this.$store.state.minhasComunidades,
         }
     },
 
     components: {
         Menu,
-        ModalPerfilComunidade,
+        ListaComunidade,
         ModalCriarComunidade,
         ModalPesquisarComunidade,
-        ItemComunidade
+        ModalPerfilComunidade,
+        ModalChatComunidade
     },
 }
 </script>

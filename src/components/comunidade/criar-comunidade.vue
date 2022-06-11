@@ -91,7 +91,7 @@
 
 <script>
 import moment from "moment";
-import requestService from "./../services/requests";
+import requestService from "../../services/requests";
 
 export default {
     name: "CriarComunidade",
