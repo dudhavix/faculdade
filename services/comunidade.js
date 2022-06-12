@@ -1,79 +1,69 @@
-const comunidade_model = require("./../models/comunidade")
-const comunidadeUsuario_model = require("./../models/comunidade-usuario")
+const comunidadeModel = require("./../models/comunidade");
+const usuarioComundiadeService = require("./usuario-comunidade");
 
 module.exports = {
-    createComunidade: async function(comunidade, res){
+    create: async function(comunidade){
         try {
-            const newComunidade = await comunidade_model.create(comunidade);
-            await comunidadeUsuario_model.create({
-                usuario: newComunidade.admin,
-                comunidade: newComunidade._id,
-                posicao: 0,
-                totalPassos: 0
-            });
-            res.status(204).send();
+            const newComunidade = await comunidadeModel.create(comunidade);
+            await usuarioComundiadeService.create(newComunidade.admin, newComunidade._id);
+            return true;
         } catch (error) {
-            res.status(400).send(error); 
+            console.log('ERROR AO CRIAR COMUNIDADE ====> ', error)
+            return false
         }
     },
 
-    getComunidades: async function(res){
+    update: async function(comunidade, usuarioId){
         try {
-            let comunidades = await comunidade_model.find({status: "ATIVO", status: "INICIADO", privacidade: "PUBLICO"});
-            comunidades = comunidades.filter(comunidade => {
-                
-            })
-            res.send(comunidades);
+            const validExisteId =  await comunidadeModel.findOne({_id: comunidade, admin: usuarioId});
+            if(validExisteId){
+                await comunidadeModel.updateOne({_id: comunidade._id}, {$set: {...comunidade, updated: new Date().getTime()}});
+                return true;
+            }
+            console.log('NÃO ENCONTROU A COMUNIDADE<>ADMIN')
+            return false
         } catch (error) {
-            res.status(400).send(error); 
+            console.log('ERROR AO ATUALIZAR COMUNIDADE ====> ', error)
+            return false
         }
     },
 
-    getMyComunidades: async function(_id, res){
+    delete: async function(comunidadeId, usuarioId){
         try {
-            const comunidades = await comunidadeUsuario_model.find({usuario: _id}).populate("comunidade");
-            res.send(comunidades);
+            const validExisteId =  await comunidadeModel.findOne({_id: comunidadeId, admin: usuarioId});
+            if(validExisteId){
+                //await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {finished: new Date().getTime()}});
+                await usuarioComundiadeService.delete(comunidadeId, usuarioId);
+                await comunidadeModel.deleteOne({_id: comunidadeId, admin: usuarioId});
+                return true;
+            }
+            console.log('NÃO ENCONTROU A COMUNIDADE<>ADMIN')
+            return false
         } catch (error) {
-            console.log("erro => ", error);
-            res.status(400).send(error); 
+            console.log('ERROR AO ATUALIZAR COMUNIDADE ====> ', error)
+            return false
         }
     },
 
-    getMyComunidadesAdmin: async function(admin, res){
+    findAll: async function(){
         try {
-            const comunidades = await comunidade_model.find({privacidade: "PRIVADO", admin});
-            res.send(comunidades);
+            return comunidadeModel.find();
         } catch (error) {
-            res.status(400).send(error); 
+            return false
         }
     },
 
-    getComunidade: async function(_id, res){
+    findById: async function(){
         try {
-            const comunidades = await comunidade_model.findOne({status: "ATIVO", _id});
-            res.send(comunidades);
+            return comunidadeModel.findOne({_id: comunidadeId});
         } catch (error) {
-            res.status(400).send(error); 
+            console.log('ERROR AO RETORNAR COMUNIDADE ====> ', error)
+            return false
         }
     },
 
-    deleteComunidade: async function(_id, admin, res){
-        try {
-            await comunidade_model.deleteOne({status: "ATIVO", _id, admin});
-            res.status(204).send();
-        } catch (error) {
-            res.status(400).send(error); 
-        }
-    },
-
-    updateComunidade: async function(updateDados, res){
-        try {
-            await comunidade_model.updateOne({status: "ATIVO", admin: updateDados.admin, _id: updateDados._id}, {$set: updateDados});
-            res.status(204).send();
-        } catch (error) {
-            res.status(400).send(error); 
-        }
-    },
-
-    
+    atualizarTotalParticipantes: async function(comunidadeId){
+        const comunidade =  await comunidadeModel.findOne({_id: comunidadeId});
+        await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {totalParticipantes: comunidade.totalParticipantes+1}})
+    }
 }
