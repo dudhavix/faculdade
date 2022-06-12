@@ -51,7 +51,7 @@ export default {
         selecionarComunidade(comunidadeId){
             requestService.findByIdComunidade(comunidadeId).then(resposta => {
                 this.abrirPerfilComunidade({
-                    comunidade: resposta.data,
+                    ...resposta.data,
                     carregando: false,
                     entrar: this.entrarComunidade
                 })

@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import requestService from "../../services/requests";
+
 import ListaComunidade from "./lista-comunidade.vue";
 
 export default {
@@ -52,7 +54,11 @@ export default {
 
     methods: {
         carregarPesquisa(){
-
+            requestService.findByAllRandom().then(resposta => {
+                this.comunidades = resposta.data;
+            }).catch(erro => {
+                console.log(erro);
+            })
         }
     },
 
