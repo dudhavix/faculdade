@@ -33,8 +33,7 @@ module.exports = {
 
     findRandomParticipantesComunidade: async (comunidade) => {
         try {
-            console.log(comunidade);
-            return usuarioComunidadeModel.f;
+            return usuarioComunidadeModel.find({comunidade}, ["usuario"], { $sample: { size: 3 } }).populate("usuario", ["picture"]);
         } catch (error) {
             console.log('ERROR AO ENCONTRAR RELAÇÃO USUÁRIO COMUNIDADE ====> ', error);
             return false;

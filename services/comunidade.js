@@ -67,9 +67,9 @@ module.exports = {
 
     findById: async function(comunidadeId){
         try {
-            const comunidades = await comunidadeModel.findOne({_id: comunidadeId}).populate("admin", ["name", "picture"]);
+            const comunidade = await comunidadeModel.findOne({_id: comunidadeId}).populate("admin", ["name", "picture"]);
             const participantes = await usuarioComundiadeService.findRandomParticipantesComunidade(comunidadeId);
-            return {comunidades, participantes}
+            return {comunidade, participantes}
         } catch (error) {
             console.log('ERROR AO RETORNAR COMUNIDADE ====> ', error)
             return false
