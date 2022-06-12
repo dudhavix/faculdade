@@ -155,6 +155,32 @@ app.get('/usuario-comunidade/findByAllComunidade/:idComunidade', isLoggedIn, asy
     }
 });
 
+//retorna 3 comunidades aleatórias
+app.get('/comunidade/findByAllRandom', isLoggedIn, async (req, res) => {
+    try {
+        const response = await comunidadeService.findAllRandom(req.user.usuario._id);
+        if(!response){
+            res.status(400).send("erro ao retornar as comunidades");
+        }
+        res.status(200).send(response);
+    } catch (erro) {
+        console.log('ERRO NO CONTROLLER AO RETORNAR AS COMUNIDADES ====> ',  erro)
+        res.status(500).send("desculpe ocorreu um erro no servidor");
+    }
+});
+
+app.get('/comunidade/findById/:idComunidade', isLoggedIn, async (req, res) => {
+    try {
+        const response = await comunidadeService.findById(req.params.idComunidade);
+        if(!response){
+            res.status(400).send("erro ao retornar a comunidade");
+        }
+        res.status(200).send(response);
+    } catch (erro) {
+        console.log('ERRO NO CONTROLLER AO RETORNAR AS COMUNIDADES ====> ',  erro)
+        res.status(500).send("desculpe ocorreu um erro no servidor");
+    }
+});
 
 
 

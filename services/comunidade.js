@@ -53,9 +53,23 @@ module.exports = {
         }
     },
 
-    findById: async function(){
+    findAllRandom: async function(usuarioId){
         try {
-            return comunidadeModel.findOne({_id: comunidadeId});
+            const comundiades = await comunidadeModel.aggregate([{ $match: { aberta: true } },{ $sample: { size: 3 } }]);
+            const comunidadesRandom = comundiades.filter(element => {
+                return element.admin != usuarioId;
+            })
+            return comunidadesRandom;
+        } catch (error) {
+            return false
+        }
+    },
+
+    findById: async function(comunidadeId){
+        try {
+            const comunidades = await comunidadeModel.findOne({_id: comunidadeId}).populate("admin", ["name", "picture"]);
+            const participantes = await usuarioComundiadeService.findRandomParticipantesComunidade(comunidadeId);
+            return {comunidades, participantes}
         } catch (error) {
             console.log('ERROR AO RETORNAR COMUNIDADE ====> ', error)
             return false

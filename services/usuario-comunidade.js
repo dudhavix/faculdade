@@ -31,6 +31,16 @@ module.exports = {
         }
     },
 
+    findRandomParticipantesComunidade: async (comunidade) => {
+        try {
+            console.log(comunidade);
+            return usuarioComunidadeModel.f;
+        } catch (error) {
+            console.log('ERROR AO ENCONTRAR RELAÇÃO USUÁRIO COMUNIDADE ====> ', error);
+            return false;
+        }
+    },
+
     delete: async (comunidade, usuario) => {
         try {
             return usuarioComunidadeModel.deleteOne({comunidade, usuario});
