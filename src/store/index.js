@@ -150,7 +150,7 @@ export default new Vuex.Store({
 
 
         perfilComunidade: {
-            comunidadeSelecionada: null,
+            comunidade: null,
             carregando: true,
             entrar: false
         },

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button id="lupaComunidade" type="button" class="btn btn-primary rounded-circle" data-bs-toggle="modal"
+        <button @click="carregarPesquisa" id="lupaComunidade" type="button" class="btn btn-primary rounded-circle" data-bs-toggle="modal"
             data-bs-target="#pesquisarComunidade">
             <i class="bi bi-search"></i>
         </button>
@@ -28,17 +28,13 @@
 
                         <h6 class="text-center mt-5">Talvez você se interesse</h6>
                         
-                        <ListaComunidade :listaComunidades="comunidades" :entrarComunidade="true"/>
-
+                        <div v-if="comunidades.length > 0">
+                            <ListaComunidade  :listaComunidades="comunidades" :entrarComunidade="true"/>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
 </template>
 
@@ -50,11 +46,14 @@ export default {
 
     data() {
         return {
-            comunidades: this.$store.state.comunidades,
+            comunidades: [],
         }
     },
 
     methods: {
+        carregarPesquisa(){
+
+        }
     },
 
     components: {

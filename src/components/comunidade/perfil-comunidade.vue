@@ -9,7 +9,6 @@
 
         <div v-else class="modal-dialog modal-fullscreen">
             <div class="modal-content">
-                
                 <div class="modal-header d-flex justify-content-start">
                     <span v-if="perfilComunidade.entrar" @click="fecharPerfilComunidade" data-bs-target="#pesquisarComunidade" data-bs-toggle="modal" data-bs-dismiss="modal">
                         <i class="bi bi-arrow-left"></i>
@@ -22,28 +21,28 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="d-flex justify-content-center">
-                            <img class="" :src="perfilComunidade.comunidadeSelecionada.foto" alt="" style="max-width: 120px;max-height: 120px;">
+                            <img class="" :src="perfilComunidade.comunidade.foto" alt="" style="max-width: 120px;max-height: 120px;">
                         </div>
                         <div class="col-12 text-center">
-                            <h2 class="">{{ perfilComunidade.comunidadeSelecionada.nome }}</h2>
+                            <h2 class="">{{ perfilComunidade.comunidade.nome }}</h2>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <h6 class="fw-normal">{{ perfilComunidade.comunidadeSelecionada.descricao }}</h6>
+                            <h6 class="fw-normal">{{ perfilComunidade.comunidade.descricao }}</h6>
                         </div>
                         <div class="mt-4 col-6 text-center">
                             <small class="text-muted">Nº participantes</small>
-                            <h4>{{ perfilComunidade.comunidadeSelecionada.participantes.toLocaleString("pt-br") }}</h4>
+                            <h4>{{ perfilComunidade.comunidade.totalParticipantes.toLocaleString("pt-br") }}</h4>
                         </div>
                         <div class="mt-4 col-6 text-center">
                             <small class="text-muted">Admin</small><br>
-                            <img class="avatar rounded-circle" :src="perfilComunidade.comunidadeSelecionada.admin.picture">
+                            <img class="avatar rounded-circle" :src="perfilComunidade.comunidade.admin.picture">
                             <br>
-                            <small class="text-muted">{{perfilComunidade.comunidadeSelecionada.admin.name}}</small><br>
+                            <small class="text-muted">{{perfilComunidade.comunidade.admin.name}}</small><br>
                         </div>
                         <div class="mt-4 col-12 text-center">
                             <small class="text-muted">Alguns participantes</small>
                             <div class="avatar-group ">
-                                <a v-for="(usuario, index) in perfilComunidade.comunidadeSelecionada.participantesArray" :key="index"
+                                <a v-for="(usuario, index) in perfilComunidade.comunidade.participantesArray" :key="index"
                                     href="javascript:;" class="avatar rounded-circle">
                                     <img  :src="usuario.picture">
                                 </a>

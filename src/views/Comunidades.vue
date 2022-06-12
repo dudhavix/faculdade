@@ -4,10 +4,14 @@
         <div class="col-12 px-4 mb-3">
             <ModalCriarComunidade />
         </div>
-
         <div class="col-12 px-4 mb-7">
             <div class="row">
-                <ListaComunidade :listaComunidades="comunidades" :entrarComunidade="false"/>
+                <div v-if="comunidades.length == 0" class="text-muted text-center">
+                    Você ainda não participa de nenhuma comunidade
+                </div>
+                <div v-else>
+                    <ListaComunidade  :listaComunidades="comunidades" :entrarComunidade="false"/>
+                </div>
             </div>
         </div>
 
@@ -26,6 +30,8 @@ import ModalPesquisarComunidade from "../components/comunidade/pesquisar-comunid
 import ModalPerfilComunidade from "../components/comunidade/perfil-comunidade.vue";
 import ModalChatComunidade from "../components/comunidade/chat-comunidade.vue";
 
+import requestService from "../services/requests";
+
 export default {
     name: "Comunidades",
 
@@ -38,8 +44,22 @@ export default {
                 historicoAtividades: [1230, 7229, 6448, 8369, 6442, 3720, 2760]
             },
 
-            comunidades: this.$store.state.minhasComunidades,
+            comunidades: [],
         }
+    },
+
+    methods: {
+        carregarMinhasComunidades(){
+            
+        }
+    },
+
+    created(){
+        requestService.findByAllUsuario().then(resposta => {
+            this.comunidades = resposta.data;
+        }).catch(erro => {
+            console.log(erro.response);
+        });
     },
 
     components: {
