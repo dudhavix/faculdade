@@ -74,10 +74,21 @@ app.get("/logout", (req,
     res) => {
     req.logout();
     req.session.destroy();
-    res.redirect("/login");
+    res.status(204).send("");
 });
 
-
+app.get("validUser",(req, res) => {
+    if(req.user && req.user.usuario){
+        const validExisteId = usuarioService.validExisteId(req.user.usuario._id);
+        if(validExisteId && req.user.accessToken){
+            res.send(req.user.usuario);
+        }else{
+            res.status(401).send("");
+        }
+    }else{
+        res.status(401).send("");
+    }
+})
 
 // COMUNIDADE
 app.post("/comunidade/create", isLoggedIn, async (req, res) => {
