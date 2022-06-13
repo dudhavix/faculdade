@@ -1,7 +1,8 @@
 <template>
     <div class="modal fade" id="modal-perfil-comunidade" tabindex="-1" aria-labelledby="modal-perfil-comunidadeLabel"
         aria-hidden="true">
-        <div v-if="perfilComunidade.carregando" class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+        <div v-if="perfilComunidade.carregando"
+            class="modal-dialog modal-dialog-centered d-flex justify-content-center">
             <div class="spinner-border text-light" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -9,19 +10,36 @@
 
         <div v-else class="modal-dialog modal-fullscreen">
             <div class="modal-content">
-                <div class="modal-header d-flex justify-content-start">
-                    <span v-if="perfilComunidade.entrar" @click="fecharPerfilComunidade" data-bs-target="#pesquisarComunidade" data-bs-toggle="modal" data-bs-dismiss="modal">
+                <div class="modal-header d-flex justify-content-between">
+                    <span v-if="perfilComunidade.entrar" @click="fecharPerfilComunidade"
+                        data-bs-target="#pesquisarComunidade" data-bs-toggle="modal" data-bs-dismiss="modal">
                         <i class="bi bi-arrow-left"></i>
                     </span>
+
                     <span v-else @click="fecharPerfilComunidade" data-bs-dismiss="modal">
                         <i class="bi bi-arrow-left"></i>
+                    </span>
+
+                    <span>
+                        <div class="dropdown">
+                            <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li class="text-end"><a class="dropdown-item" href="#">Compartilhar</a></li>
+                                <li data-bs-toggle="modal" data-bs-target="#modal-editar-comunidade" v-if="perfilComunidade.comunidade.admin._id == $store.state.usuario._id" class="text-end"><a class="dropdown-item" href="#">Editar</a></li>
+                                <li @click="sair" v-if="(perfilComunidade.comunidade.admin._id != $store.state.usuario._id) && !perfilComunidade.entrar" class="text-end"><a class="dropdown-item" >Sair da comunidade</a></li>
+                                <li @click="fechar" v-if="perfilComunidade.comunidade.admin._id == $store.state.usuario._id" class="text-end"><a class="dropdown-item" >Fechar a comunidade</a></li>
+                            </ul>
+                        </div>
                     </span>
                 </div>
 
                 <div class="modal-body">
                     <div class="row">
                         <div class="d-flex justify-content-center">
-                            <img class="" :src="$store.state.hostServidor+perfilComunidade.comunidade.foto" alt="" style="max-width: 120px;max-height: 120px;">
+                            <img class="" :src="$store.state.hostServidor + perfilComunidade.comunidade.foto" alt=""
+                                style="max-width: 120px;max-height: 120px;">
                         </div>
                         <div class="col-12 text-center">
                             <h2 class="">{{ perfilComunidade.comunidade.nome }}</h2>
@@ -37,14 +55,14 @@
                             <small class="text-muted">Admin</small><br>
                             <img class="avatar rounded-circle" :src="perfilComunidade.comunidade.admin.picture">
                             <br>
-                            <small class="text-muted">{{perfilComunidade.comunidade.admin.name}}</small><br>
+                            <small class="text-muted">{{ perfilComunidade.comunidade.admin.name }}</small><br>
                         </div>
                         <div class="mt-4 col-12 text-center">
                             <small class="text-muted">Alguns participantes</small>
                             <div class="avatar-group ">
                                 <a v-for="(participante, index) in perfilComunidade.participantes" :key="index"
                                     href="javascript:;" class="avatar rounded-circle">
-                                    <img  :src="participante.usuario.picture">
+                                    <img :src="participante.usuario.picture">
                                 </a>
                             </div>
                         </div>
@@ -54,21 +72,24 @@
                 <div v-if="perfilComunidade.entrar" class="d-flex justify-content-between mt-4 pb-4">
                     <div class="d-grid col-6 px-2">
                         <button type="button" class="btn btn-outline-secondary mb-0 rounded-pill"
-                            data-bs-target="#pesquisarComunidade" data-bs-toggle="modal" data-bs-dismiss="modal" aria-label="Close">cancelar</button>
+                            data-bs-target="#pesquisarComunidade" data-bs-toggle="modal" data-bs-dismiss="modal"
+                            aria-label="Close">cancelar</button>
                     </div>
                     <div class="d-grid col-6 px-2">
-                        <button @click="entrarComunidade" type="button" class="btn btn-primary mb-0 rounded-pill">Entrar</button>
+                        <button @click="entrarComunidade" type="button"
+                            class="btn btn-primary mb-0 rounded-pill">Entrar</button>
                     </div>
                 </div>
 
                 <div v-else class="d-flex justify-content-between mt-4 pb-4">
                     <div class="d-grid col-12 px-2">
-                        <button @click="abrirChat"  data-bs-toggle="modal" data-bs-target="#modal-chat-comunidade" type="button" class="btn btn-primary mb-0 rounded-pill">Abrir chat</button>
+                        <button @click="abrirChat" data-bs-toggle="modal" data-bs-target="#modal-chat-comunidade"
+                            type="button" class="btn btn-primary mb-0 rounded-pill">Abrir chat</button>
                     </div>
                 </div>
 
             </div>
-        </div> 
+        </div>
     </div>
 </template>
 
@@ -90,41 +111,56 @@ export default {
     methods: {
         ...mapMutations(["fecharPerfilComunidade", "abrirChatComunidade"]),
 
-        entrarComunidade(){
-            requestService.entrarComunidade(this.perfilComunidade.comunidade._id).then().catch();
+        sair(){},
+        fechar(){
+            console.log(1);
+            requestService.deleteComunidade(this.perfilComunidade.comunidade._id).then(resposta => {
+                console.log(2);
+                window.location.reload()
+            }).catch(erro => {
+                console.log(erro.response);
+            });
+        },
+        
+        entrarComunidade() {
+            requestService.entrarComunidade(this.perfilComunidade.comunidade._id).then(resposta => {
+                window.location.reload();
+            }).catch(erro => {
+                console.log(erro.response);
+            });
         },
 
-        abrirChat(){
+        abrirChat() {
             this.abrirChatComunidade({
                 idChat: this.perfilComunidade.comunidadeSelecionada._id,
                 nome: "Deserunt",
                 carregando: false,
                 conversa: [{
-                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                nome: "Teste 1",
-                message: "Deserunt consequuntur et distinctio vitae provident",
-                dataHora: "06-10-2022 21:45:45"
-            },{
-                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                nome: "Teste 2",
-                message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
-                dataHora: "06-11-2022 14:45:45"
-            },{
-                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                nome: "Teste 3",
-                message: "Deserunt",
-                dataHora: "06-11-2022 10:45:45"
-            },{
-                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                nome: "Teste 4",
-                message: "Deserunt consequuntur ",
-                dataHora: "06-11-2022 22:45:45"
-            },{
-                picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                nome: "Teste 5",
-                message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
-                dataHora: "06-11-2022 23:45:45"
-            }]
+                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                    nome: "Teste 1",
+                    message: "Deserunt consequuntur et distinctio vitae provident",
+                    dataHora: "06-10-2022 21:45:45"
+                }, {
+                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                    nome: "Teste 2",
+                    message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
+                    dataHora: "06-11-2022 14:45:45"
+                }, {
+                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                    nome: "Teste 3",
+                    message: "Deserunt",
+                    dataHora: "06-11-2022 10:45:45"
+                }, {
+                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                    nome: "Teste 4",
+                    message: "Deserunt consequuntur ",
+                    dataHora: "06-11-2022 22:45:45"
+                }, {
+                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
+                    nome: "Teste 5",
+                    message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
+                    dataHora: "06-11-2022 23:45:45"
+                }]
             })
         }
     }

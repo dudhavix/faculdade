@@ -21423,18 +21423,6 @@ body.dark-version {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
 
-  .dropdown .dropdown-menu:before {
-    font-family: "FontAwesome";
-    content: "\f0d8";
-    position: absolute;
-    top: 0;
-    left: 28px;
-    right: auto;
-    font-size: 22px;
-    color: #fff;
-    transition: top 0.35s ease;
-  }
-
   .dropdown:not(.dropdown-hover) .dropdown-menu {
     margin-top: 2.38rem !important;
     margin-left: -1rem;
@@ -22037,7 +22025,7 @@ body.dark-version {
   width: 0.8375rem;
   height: 0.8375rem;
   border-radius: 50%;
-  background-image: linear-gradient(195deg, #EC407A 0%, #D81B60 100%), var(--bs-gradient);
+  background-color: #6bb3f1;
   opacity: 0;
   left: 0;
   right: 0;

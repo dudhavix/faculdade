@@ -1,11 +1,6 @@
 <template>
     <div class="">
-
-        <div class="d-grid" data-bs-toggle="modal" data-bs-target="#modal-criar-comunidade">
-            <button class="btn btn-primary rounded-pill m-0" type="button">Criar comunidade</button>
-        </div>
-
-        <div class="modal fade" id="modal-criar-comunidade" tabindex="-1" aria-labelledby="modal-criar-comunidade"
+        <div class="modal fade" id="modal-editar-comunidade" tabindex="-1" aria-labelledby="modal-editar-comunidade"
             aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
@@ -14,9 +9,9 @@
                             <i class="bi bi-arrow-left"></i>
                         </span>
                     </div>
-                    <div class="modal-body">
+                    <div v-if="perfilComunidade.comunidade" class="modal-body">
 
-                        <h5 class="text-center">Crie sua comunidade</h5>
+                        <h5 class="text-center">Editar sua comunidade</h5>
                         <p class="text-center lh-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
                             earum nam ducimus doloremque ipsa animi!</p>
 
@@ -24,13 +19,13 @@
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="">Nome</label>
-                                    <input v-model="novaComunidade.nome" type="text" class="form-control rounded-pill" id=""
+                                    <input v-model="perfilComunidade.comunidade.nome" type="text" class="form-control rounded-pill" id=""
                                         placeholder="Nome da comunidade">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="Descrição">Descrição</label>
-                                    <textarea v-model="novaComunidade.descricao" class="form-control" placeholder="Descrição da comunidade" cols="30"
+                                    <textarea v-model="perfilComunidade.comunidade.descricao" class="form-control" placeholder="Descrição da comunidade" cols="30"
                                         rows="4" style="border-radius: 1.375rem;"></textarea>
                                 </div>
                             </div>
@@ -43,11 +38,11 @@
                                     <br>
                                     <div class="d-flex">
                                         <div class="form-check form-check-inline mb-3">
-                                            <input v-model="novaComunidade.aberta" value="true" class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio1">
+                                            <input v-model="perfilComunidade.comunidade.aberta" value="true" class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio1">
                                             <label class="form-check-label" for="customRadio1">Aberta</label>
                                         </div>
                                         <div class="form-check">
-                                            <input v-model="novaComunidade.aberta" value="false" class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
+                                            <input v-model="perfilComunidade.comunidade.aberta" value="false" class="form-check-input" type="radio" name="flexRadioDefault" id="customRadio2">
                                             <label class="form-check-label" for="customRadio2">Fechada</label>
                                         </div>
                                     </div>
@@ -82,10 +77,10 @@
                             </div>
 
                             <div class="d-grid col-6 px-2">
-                                <button @click="criarComunidade" type="button" class="btn btn-primary mb-0 rounded-pill">Criar</button>
+                                <button @click="editarComunidade" type="button" class="btn btn-primary mb-0 rounded-pill">Editar</button>
                             </div>
                         </div>
-
+                        
                     </div>
                 </div>
             </div>
@@ -94,28 +89,25 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import {mapGetters} from "vuex";
 import requestService from "../../services/requests";
 
 export default {
-    name: "CriarComunidade",
+    name: "EditarComunidade",
+    
+    computed: {
+        ...mapGetters(["perfilComunidade"]),
+    },
+
     data() {
         return {
             carregando: false,
-            novaComunidade: {
-                nome: "",
-                descricao: "",
-                aberta: true,
-                foto: "",
-            },
             imagemComunidade: [],
             imagemComunidadeSelecionada: null,
         }
     },
 
     methods: {
-        ...mapMutations(["addAlerta"]),
-
         carregarImagemComunidades() {
             requestService.carregarImagemComunidades().then(resposta => {
                 this.imagemComunidade = resposta.data;
@@ -124,12 +116,12 @@ export default {
 
         selecionarImagem(imagem, index) {
             this.imagemComunidadeSelecionada = index;
-            this.novaComunidade.foto = imagem;
+            this.perfilComunidade.comunidade.foto = imagem;
         },
 
-        criarComunidade(){
+        editarComunidade(){
             this.carregando = true;
-            requestService.createComunidade(this.novaComunidade).then(resposta => {
+            requestService.updateComunidade(this.perfilComunidade.comunidade).then(resposta => {
                 window.location.reload();
                 this.carregando = false;
             }).catch(erro => {

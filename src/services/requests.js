@@ -15,11 +15,11 @@ export default {
     },
 
     updateComunidade: (comunidade) => {
-        return http.post(`comunidade/update`, comunidade);
+        return http.put(`comunidade/update`, comunidade);
     },
 
     deleteComunidade: (comunidadeId) => {
-        return http.post(`comunidade/delete/${comunidadeId}`);
+        return http.delete(`comunidade/delete/${comunidadeId}`);
     },
 
     findByIdComunidade: (comunidadeId) => {

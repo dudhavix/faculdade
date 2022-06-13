@@ -1,16 +1,20 @@
 <template>
     <div id="app" class="">
-        <MenuSuperior v-if="$route.name != 'login'"/>
+        <MenuSuperior v-if="$route.name != 'login'" />
         <router-view />
+        <Alertas/>
     </div>
 </template>
 
 <script>
+
 import MenuSuperior from "./components/menu-superior.vue";
+import Alertas from "./components/alertas.vue";
 export default {
     components: {
-MenuSuperior,
-    }
+        MenuSuperior,
+        Alertas
+    },
 }
 </script>
 <style>

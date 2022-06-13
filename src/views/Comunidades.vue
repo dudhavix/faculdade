@@ -19,6 +19,7 @@
         <ModalPesquisarComunidade />
         <ModalPerfilComunidade/>
         <ModalChatComunidade/>
+        <ModalEditarComunidade/>
     </div>
 </template>
 
@@ -26,38 +27,35 @@
 import Menu from "../components/menu.vue";
 import ListaComunidade from "../components/comunidade/lista-comunidade.vue";
 import ModalCriarComunidade from "../components/comunidade/criar-comunidade.vue";
+import ModalEditarComunidade from "../components/comunidade/editar-comunidade.vue";
 import ModalPesquisarComunidade from "../components/comunidade/pesquisar-comunidade.vue";
 import ModalPerfilComunidade from "../components/comunidade/perfil-comunidade.vue";
 import ModalChatComunidade from "../components/comunidade/chat-comunidade.vue";
 
 import requestService from "../services/requests";
+import {mapMutations} from "vuex";
 
 export default {
     name: "Comunidades",
 
     data() {
         return {
-            pesquisa: "",
-            usuario: {
-                metaPessoal: 7500,
-                totalPassos: 3743,
-                historicoAtividades: [1230, 7229, 6448, 8369, 6442, 3720, 2760]
-            },
-
             comunidades: [],
         }
     },
 
     methods: {
-        carregarMinhasComunidades(){
-            
-        }
+        ...mapMutations(["addAlerta"]),
     },
 
     created(){
         requestService.findByAllUsuario().then(resposta => {
             this.comunidades = resposta.data;
         }).catch(erro => {
+            this.addAlerta({
+                msg: erro.response,
+                status: "alert-error"
+            })
             console.log(erro.response);
         });
     },
@@ -68,7 +66,8 @@ export default {
         ModalCriarComunidade,
         ModalPesquisarComunidade,
         ModalPerfilComunidade,
-        ModalChatComunidade
+        ModalChatComunidade,
+        ModalEditarComunidade
     },
 }
 </script>

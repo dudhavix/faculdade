@@ -8,7 +8,7 @@
             <div class="dropdown">
                 <a class="avatar avatar-sm rounded-circle" href="#" role="button" id="dropdownMenuLink"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="rounded-circle" alt="Image placeholder" :src="user.usuario.picture">
+                    <img class="rounded-circle" alt="Image placeholder" :src="usuario.picture">
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li class="text-end" @click="logout"><a class="dropdown-item" href="#">Sair</a></li>
@@ -23,7 +23,7 @@
 export default {
     data() {
         return {
-            user: this.$store.state.user
+            usuario: this.$store.state.usuario
         }
     },
 
