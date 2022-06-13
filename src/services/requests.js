@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const http = axios.create({
-    baseURL: "http://localhost:3030/"
+    baseURL: "https://walking-challenger-backend.herokuapp.com/"
 });
 
 export default {
