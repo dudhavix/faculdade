@@ -20,38 +20,16 @@ app.use(cors());
 app.use(express.static("public"));
 
 function isLoggedIn(req, res, next) {
-    // req.user = {usuario: {
-    //     "_id": "62a4d863db83438c745150bc",
-    //     "name": "Duda Santos",
-    //     "picture": "https://lh3.googleusercontent.com/a-/AOh14GiWHV6kWvjd_TqZpA6z4SnV2U4pDwgUxsXP8HWH=s96-c"
-    // }}
-    // next();
-
-    // req.user = {usuario: {
-    //     "_id": "62a5640bb34d031d72da525a",
-    //     "name": "eduarda santos",
-    //     "picture": "https://lh3.googleusercontent.com/a-/AOh14Giog5gGf-FwR1W5phAxzHGBlRLlQPfqxY_Dp9Xo4g=s96-c"
-    // }}
-    // next();
-
-    req.user = {usuario: {
-        "_id": "62a5fb97077abf1b25dba9ac",
-        "name": "Taiga Aisaka",
-        "picture": "https://th.bing.com/th/id/OIP.cTfc8VzeHusOu1pRb8bznwHaHa?pid=ImgDet&rs=1"
-    }}
-    next();
-
-    
-    // if(req.user && req.user.usuario){
-    //     const validExisteId = usuarioService.validExisteId(req.user.usuario._id);
-    //     if(validExisteId && req.user.accessToken){
-    //         next();
-    //     }else{
-    //         res.redirect("/oauth");
-    //     }
-    // }else{
-    //     res.redirect("/oauth");
-    // }
+    if(req.user && req.user.usuario){
+        const validExisteId = usuarioService.validExisteId(req.user.usuario._id);
+        if(validExisteId && req.user.accessToken){
+            next();
+        }else{
+            res.redirect("/oauth");
+        }
+    }else{
+        res.redirect("/oauth");
+    }
 }
 
 app.use(session({ secret: process.env.PASSAPORT_SECRET, name: process.env.PASSAPORT_NAME, resave: false, saveUninitialized: true }));
