@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import requestsService from "../services/requests";
 
 import Footer from "../components/footer.vue"
@@ -57,9 +58,13 @@ export default {
     },
 
     methods:{
+        ...mapMutations(["setUsuario"]),
+
         login(){
             requestsService.login().then(resposta => {
-                console.log(resposta);
+                console.log(resposta.data);
+                this.setUsuario(resposta.data);
+                this.$router.push({ name: "home"});
             }).catch(erro => {
                 console.log(erro);
             })
@@ -85,10 +90,6 @@ export default {
     height: 60px;
     border-radius: 100%;
     color: white;
-}
-
-#texto-chamativo {
-    /* font-size: calc(3rem + 2.1vw); */
 }
 
 .btn-light {

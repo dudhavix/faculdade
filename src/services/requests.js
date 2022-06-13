@@ -43,6 +43,10 @@ export default {
     login: () => {
         return http.get(`login`)
     },
+
+    logout: () => {
+        return http.get(`logout`)
+    },
     
     carregarImagemComunidades: () => {
         return http.get(`carregar-img-comunidades`)

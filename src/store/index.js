@@ -8,11 +8,7 @@ export default new Vuex.Store({
         hostServidor: "http://localhost:3030/",
         token: null,
         
-        usuario: {
-            _id: "62a5fb97077abf1b25dba9ac",
-            name: "Taiga Aisaka",
-            picture: "https://th.bing.com/th/id/OIP.cTfc8VzeHusOu1pRb8bznwHaHa?pid=ImgDet&rs=1",
-        },
+        usuario: null,
 
         perfilComunidade: {
             comunidade: null,
@@ -32,6 +28,14 @@ export default new Vuex.Store({
 
     },
     mutations: {
+        setUsuario(state, payload){
+            state.usuario = payload;
+        },
+
+        logoutUsuario(state,){
+            state.usuario = null;
+        },
+
         abrirPerfilComunidade(state, payload){
             state.perfilComunidade = payload;
         },
@@ -80,6 +84,9 @@ export default new Vuex.Store({
     
 
     actions: {
+        setUsuario({commit}, payload){
+            commit("setUsuario", payload);
+        }
     },
     modules: {
     }

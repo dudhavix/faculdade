@@ -1,10 +1,11 @@
 <template>
     <div id="app" class="">
-        <MenuSuperior v-if="$route.name != 'login'" />
+        <MenuSuperior v-if="$route.name != 'login'" :usuario="$store.state.usuario"/>
         <router-view />
         <Alertas/>
     </div>
 </template>
+
 
 <script>
 
