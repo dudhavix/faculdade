@@ -86,7 +86,7 @@ app.post("/comunidade/create", isLoggedIn, async (req, res) => {
             ...req.body,
             admin: req.user.usuario._id
         });
-        response ? res.status(204).send("comunidade criada com sucesso!") : res.status(400).send("erro ao criar a comunidade");    
+        response ? res.status(200).send("comunidade criada com sucesso!") : res.status(400).send("erro ao criar a comunidade");    
     } catch (erro) {
         console.log('ERRO NO CONTROLLER AO CRIAR A COMUNIDADE ====> ',  erro)
         res.status(500).send("desculpe ocorreu um erro no servidor");
@@ -96,8 +96,19 @@ app.post("/comunidade/create", isLoggedIn, async (req, res) => {
 app.get("/comunidade/entrar/:idComunidade", isLoggedIn, async (req, res) => {
     try {
         const response = await usuarioComundiadeService.create(req.user.usuario._id, req.params.idComunidade);
-        comunidadeService.atualizarTotalParticipantes(req.params.idComunidade);
-        response ? res.status(204).send("você entrou na comunidade!") : res.status(400).send("erro ao entrar na comunidade");    
+        comunidadeService.atualizarTotalParticipantes(req.params.idComunidade, true);
+        response ? res.status(200).send("você entrou na comunidade!") : res.status(400).send("erro ao entrar na comunidade");    
+    } catch (erro) {
+        console.log('ERRO NO CONTROLLER AO ENTRAR NA COMUNIDADE ====> ',  erro)
+        res.status(500).send("desculpe ocorreu um erro no servidor");
+    }
+});
+
+app.get("/comunidade/sair/:idComunidade", isLoggedIn, async (req, res) => {
+    try {
+        const response = await usuarioComundiadeService.delete(req.user.usuario._id, req.params.idComunidade);
+        comunidadeService.atualizarTotalParticipantes(req.params.idComunidade, false);
+        response ? res.status(200).send("você saiu na comunidade!") : res.status(400).send("erro ao sair da comunidade");    
     } catch (erro) {
         console.log('ERRO NO CONTROLLER AO ENTRAR NA COMUNIDADE ====> ',  erro)
         res.status(500).send("desculpe ocorreu um erro no servidor");
@@ -117,9 +128,9 @@ app.put("/comunidade/update", isLoggedIn, async (req, res) => {
     }
 });
 
-app.delete("/comunidade/delete/:idComundiade", isLoggedIn, async (req, res) => {
+app.delete("/comunidade/delete/:idComunidade", isLoggedIn, async (req, res) => {
     try {
-        const response = await comunidadeService.delete(req.params.idComundiade, req.user.usuario._id);
+        const response = await comunidadeService.delete(req.params.idComunidade, req.user.usuario._id);
         response ? res.status(204).send("comunidade fechada com sucesso!") : res.status(400).send("erro ao fechar a comunidade");    
     } catch (erro) {
         console.log('ERRO NO CONTROLLER AO FECHAR A COMUNIDADE ====> ', erro)

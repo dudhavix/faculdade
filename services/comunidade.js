@@ -76,8 +76,12 @@ module.exports = {
         }
     },
 
-    atualizarTotalParticipantes: async function(comunidadeId){
+    atualizarTotalParticipantes: async function(comunidadeId, entrada){
         const comunidade =  await comunidadeModel.findOne({_id: comunidadeId});
-        await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {totalParticipantes: comunidade.totalParticipantes+1}})
+        if(entrada){
+            await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {totalParticipantes: comunidade.totalParticipantes+1}})
+        }else{
+            await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {totalParticipantes: comunidade.totalParticipantes-1}})
+        }
     }
 }
