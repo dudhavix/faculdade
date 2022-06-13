@@ -61,13 +61,13 @@ export default {
         ...mapMutations(["setUsuario"]),
 
         login(){
-            requestsService.login().then(resposta => {
-                console.log(resposta.data);
-                this.setUsuario(resposta.data);
-                this.$router.push({ name: "home"});
-            }).catch(erro => {
-                console.log(erro);
-            })
+            // requestsService.login().then(resposta => {
+            //     console.log(resposta.data);
+            //     this.setUsuario(resposta.data);
+            //     this.$router.push({ name: "home"});
+            // }).catch(erro => {
+            //     console.log(erro);
+            // })
         }
     },
 
@@ -75,6 +75,10 @@ export default {
 
     mounted() {
     },
+
+    setup(){
+        const vueGoogleOauth2 = inject("VueGoogleOauth2")
+    }
 };
 </script>
 
