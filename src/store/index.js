@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        hostServidor: "http://localhost:3030/",
+        hostServidor: "https://walking-challenger-backend.herokuapp.com/",
         token: null,
         
         usuario: null,
