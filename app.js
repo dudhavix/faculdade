@@ -18,6 +18,37 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use(express.static("public"));
+app.set("views", "./src/views");
+app.set("view engine", "ejs");
+
+
+app.get("/", (req, res) => {
+    res.render("login", {titulo: "testeEJS", nome: "Duda"})
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ===========================================
+
 
 function isLoggedIn(req, res, next) {
     if(req.user && req.user.usuario){
