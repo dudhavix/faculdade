@@ -9,13 +9,16 @@ const { getSteps, getSleep, getHeartRate, mapperData } = require("./services/goo
 const comunidadeService = require("./services/comunidade");
 const usuarioService = require("./services/usuario");
 const usuarioComundiadeService = require("./services/usuario-comunidade");
+const { generateAuthUrl } = require("./config/oAuthGoogle");
 require("./config/auth");
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+    origin: "*",
+}));
 
 app.use(express.static("public"));
 
@@ -32,24 +35,28 @@ function isLoggedIn(req, res, next) {
     }
 }
 
-app.use(session({ secret: process.env.PASSAPORT_SECRET, name: process.env.PASSAPORT_NAME, resave: false, saveUninitialized: true }));
+//app.use(session({ secret: process.env.PASSAPORT_SECRET, name: process.env.PASSAPORT_NAME, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
-app.get('/oauth', passport.authenticate('google', { scope: process.env.SCOPES }));
+//app.get('/login', passport.authenticate('google', { scope: process.env.SCOPES }));
 
-app.get("/oauth2callback", passport.authenticate('google', { successRedirect: '/login', failureRedirect: '/oauth/failure' }));
+app.get("/oauth2callback", passport.authenticate('google', { failureRedirect: '/oauth/failure', session: false }), (req, res) => {
+    let token = res.req.user;
+    res.header("Access-Control-Allow-Origin", "*")
+    res.redirect("http://localhost:8080/login?token="+token);
+});
 
 app.get("/oauth/failure", (req, res) => {
     res.send("Falha ao logar");
 });
 
-app.get("/login", isLoggedIn, (req, res) => {
-    res.send({ ...req.user.usuario });
+app.get("/login", async (req, res) => {
+    const url = await  generateAuthUrl();
+    res.send(url);
 });
 
-app.get("/logout", (req,
-    res) => {
+app.get("/logout", (req, res) => {
     req.logout();
     req.session.destroy();
     res.status(204).send("");
