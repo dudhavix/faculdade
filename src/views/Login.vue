@@ -17,20 +17,13 @@
 
                         <div class="my-4">
                             <h1 class="text-white mb-4">Some quick example</h1>
-                        
+
                             <p class="card-text">
                                 Some quick example text to build on the card title and make up the bulk of
                                 the card's content.
                             </p>
                         </div>
-
-                        <button @click="login" class="btn btn-icon btn-light rounded-pill d-flex justify-content-between align-items-center" type="button">
-                            Entre
-                            <span class="h4 mb-0 ms-4">
-                                <i class="bi bi-arrow-right-short"></i>
-                            </span>
-                        </button>
-
+                        <button id="botaoGoogle" class="btn bg-white rounded-pill shadow-none" @click="login">Entre com sua conta</button>
                     </div>
                 </div>
             </div>
@@ -42,6 +35,30 @@
 </template>
 
 <script>
+function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+}
+window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: "987882199766-gmlinen7da4cjurg54p15pqa5ghbsh5h.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+        prompt: "consent",
+        scope: "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/fitness.heart_rate.read https://www.googleapis.com/auth/fitness.body_temperature.read https://www.googleapis.com/auth/fitness.nutrition.read https://www.googleapis.com/auth/fitness.body.read https://www.googleapis.com/auth/fitness.activity.read https://www.googleapis.com/auth/fitness.location.read https://www.googleapis.com/auth/fitness.blood_glucose.read https://www.googleapis.com/auth/fitness.reproductive_health.read https://www.googleapis.com/auth/fitness.sleep.read https://www.googleapis.com/auth/fitness.blood_pressure.read https://www.googleapis.com/auth/fitness.oxygen_saturation.read",
+    });
+    google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        {
+            type: "standard",
+            shape: "pill",
+            theme: "outline",
+            text: "Entrar",
+            size: "large",
+            logo_alignment: "left"
+        }  // customization attributes,
+    );
+    //   google.accounts.id.prompt(); // also display the One Tap dialog
+}
+
 import { mapMutations } from "vuex";
 import requestsService from "../services/requests";
 
@@ -57,32 +74,36 @@ export default {
         }
     },
 
-    methods:{
+    methods: {
         ...mapMutations(["setUsuario"]),
 
+        sair() {
+            console.log(1);
+            google.accounts.id.disableAutoSelect();
+        },
+
         login(){
-            // requestsService.login().then(resposta => {
-            //     console.log(resposta.data);
-            //     this.setUsuario(resposta.data);
-            //     this.$router.push({ name: "home"});
-            // }).catch(erro => {
-            //     console.log(erro);
-            // })
+            requestsService.login().then(resposta => {
+                console.log(resposta);
+                window.location.href = resposta.data
+            })
         }
+
+
     },
-
-    created() { },
-
-    mounted() {
-    },
-
-    setup(){
-        const vueGoogleOauth2 = inject("VueGoogleOauth2")
-    }
 };
 </script>
 
 <style scoped>
+#botaoGoogle{
+    background-image: url("../assets/google-icon.png");
+    background-size: 3rem;
+    /* width: 3rem; */
+    background-repeat: no-repeat;
+    background-position: right;
+    padding-right: 3rem;
+}
+
 .bg-white-transparente {
     background-color: #ffffff4f !important;
     color: white;

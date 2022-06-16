@@ -49,26 +49,24 @@ const routes = [
 
 
 const router = new VueRouter({
-    mode:'history',
+    mode: 'history',
     base: "/",
     routes
 })
 
 router.beforeEach(async (to, from, next) => {
-    const usuarioLogin = await requestService.login();
-    store.dispatch('setUsuario', usuarioLogin.data)
-    
-    if (to.fullPath == '/' || to.fullPath == '/comunidades' || to.fullPath == '/perfil') {
-      if (store.state.usuario._id == "") {
-        next('/login');
-      }
+    if (to.name == 'home' || to.name == 'comunidades' || to.name == 'perfil') {
+        if (!store.getters.getUsuario) {
+            next('/login');
+        }
     }
-    if (to.fullPath == '/login') {
-      if (store.state.usuario._id != "") {
-        next('/');
-      }
+    if (to.name == "login") {
+        store.dispatch('setToken', to.query.token);
+        if (store.getters.getUsuario) {
+            next('/comunidades');
+        }
     }
     next();
-  });
+});
 
 export default router

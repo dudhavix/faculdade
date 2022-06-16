@@ -13,7 +13,9 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.23.0",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.3",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",

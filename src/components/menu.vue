@@ -2,15 +2,6 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid d-flex justify-content-around">
 
-            <router-link :to="{ name: 'home' }">
-                <h4 v-if="menuAtivo.home" class="active">
-                    <i class="bi bi-house-door-fill"></i>
-                </h4>
-                <h4 v-else class="text-color-cinza">
-                    <i class="bi bi-house-door"></i>
-                </h4>
-            </router-link>
-
             <router-link :to="{ name: 'comunidades' }">
                 <h4 v-if="menuAtivo.comunidades" class="active">
                     <i class="bi bi-award-fill"></i>
@@ -20,6 +11,16 @@
                 </h4>
             </router-link>
 
+            <router-link :to="{ name: 'home' }">
+                <h4 v-if="menuAtivo.home" class="active">
+                    <i class="bi bi-house-door-fill"></i>
+                </h4>
+                <h4 v-else class="text-color-cinza">
+                    <i class="bi bi-house-door"></i>
+                </h4>
+            </router-link>
+
+            
             <router-link :to="{ name: 'perfil' }">
                 <h4 v-if="menuAtivo.perfil" class="active">
                     <i class="bi bi-person-fill"></i>

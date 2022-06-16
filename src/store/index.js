@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import jwtDecode from "jwt-decode";
 
 Vue.use(Vuex)
 
@@ -9,6 +10,7 @@ export default new Vuex.Store({
         token: null,
         
         usuario: null,
+        access_token: null,
 
         perfilComunidade: {
             comunidade: null,
@@ -28,12 +30,14 @@ export default new Vuex.Store({
 
     },
     mutations: {
-        setUsuario(state, payload){
-            state.usuario = payload;
+        setInformacaoUsuario(state, payload){
+            state.usuario = payload.usuario;
+            state.access_token = payload.access_token;
         },
 
         logoutUsuario(state,){
             state.usuario = null;
+            state.access_token = null;
         },
 
         abrirPerfilComunidade(state, payload){
@@ -80,13 +84,28 @@ export default new Vuex.Store({
         perfilComunidade: state => state.perfilComunidade,
         chatComunidade: state => state.chatComunidade,
         alertas: state => state.alertas,
+        getUsuario: state => state.usuario,
     },
     
 
     actions: {
-        setUsuario({commit}, payload){
-            commit("setUsuario", payload);
-        }
+        setToken({commit}, payload){
+            const token = payload || localStorage.getItem("token");
+            if(token){
+                try {
+                    const informacao_usuario = jwtDecode(token);
+                    localStorage.setItem("token", token);
+                    commit("setInformacaoUsuario", {usuario: informacao_usuario.usuario, access_token: informacao_usuario.access_token});
+                } catch (error) {
+                    
+                }
+            }
+        },
+
+        logout({commit}){
+            localStorage.removeItem("token");
+            commit("logoutUsuario");
+        },
     },
     modules: {
     }
