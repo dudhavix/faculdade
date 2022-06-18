@@ -1,5 +1,7 @@
+const logger = require("../config/helper-log");
 const comunidadeModel = require("./../models/comunidade");
 const usuarioComundiadeService = require("./usuario-comunidade");
+
 
 module.exports = {
     create: async function(comunidade){
@@ -8,8 +10,8 @@ module.exports = {
             await usuarioComundiadeService.create(newComunidade.admin, newComunidade._id);
             return true;
         } catch (error) {
-            console.log('ERROR AO CRIAR COMUNIDADE ====> ', error)
-            return false
+            logger.error("comunidadeService", "findByRandom", error);
+            return false;
         }
     },
 
@@ -20,11 +22,11 @@ module.exports = {
                 await comunidadeModel.updateOne({_id: comunidade._id}, {$set: {...comunidade, updated: new Date().getTime()}});
                 return true;
             }
-            console.log('NÃO ENCONTROU A COMUNIDADE<>ADMIN')
-            return false
+            logger.warning("comunidadeService", "update", "nenhuma comunidade encontrada");
+            return false;
         } catch (error) {
-            console.log('ERROR AO ATUALIZAR COMUNIDADE ====> ', error)
-            return false
+            logger.error("comunidadeService", "findByRandom", error);
+            return false;
         }
     },
 
@@ -33,15 +35,15 @@ module.exports = {
             const validExisteId =  await comunidadeModel.findOne({_id: comunidadeId, admin: usuarioId});
             if(validExisteId){
                 //await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {finished: new Date().getTime()}});
-                await usuarioComundiadeService.delete(comunidadeId, usuarioId);
+                await usuarioComundiadeService.deleteMany(comunidadeId);
                 await comunidadeModel.deleteOne({_id: comunidadeId, admin: usuarioId});
                 return true;
             }
-            console.log('NÃO ENCONTROU A COMUNIDADE<>ADMIN')
-            return false
+            logger.warning("comunidadeService", "delete", "nenhuma comunidade encontrada");
+            return false;
         } catch (error) {
-            console.log('ERROR AO ATUALIZAR COMUNIDADE ====> ', error)
-            return false
+            logger.error("comunidadeService", "findByRandom", error);
+            return false;
         }
     },
 
@@ -53,7 +55,7 @@ module.exports = {
         }
     },
 
-    findAllRandom: async function(usuarioId){
+    findByRandom: async function(usuarioId){
         try {
             const comundiades = await comunidadeModel.aggregate([{ $match: { aberta: true } },{ $sample: { size: 3 } }]);
             const comunidadesRandom = comundiades.filter(element => {
@@ -61,7 +63,8 @@ module.exports = {
             })
             return comunidadesRandom;
         } catch (error) {
-            return false
+            logger.error("comunidadeService", "findByRandom", error);
+            return false;
         }
     },
 
@@ -71,8 +74,8 @@ module.exports = {
             const participantes = await usuarioComundiadeService.findRandomParticipantesComunidade(comunidadeId);
             return {comunidade, participantes}
         } catch (error) {
-            console.log('ERROR AO RETORNAR COMUNIDADE ====> ', error)
-            return false
+            logger.error("comunidadeService", "findByRandom", error);
+            return false;
         }
     },
 

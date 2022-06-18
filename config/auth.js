@@ -1,7 +1,5 @@
-require("dotenv").config();
 const passport = require('passport');
 const jwt = require("jsonwebtoken");
-
 
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -27,13 +25,7 @@ passport.use(new GoogleStrategy(
                 usuario = await usuarioService.findBySub({ sub: profile._json.sub });
             }
         }
-        console.log({usuario, accessToken});
-        console.log("TOKEN_SECRET", process.env.TOKEN_SECRET);
-        console.log("TOKEN_TYPE", process.env.TOKEN_TYPE);
-        // jwt.sign({usuario, accessToken}, process.env.TOKEN_SECRET, { algorithm: process.env.TOKEN_TYPE}, function(err, token) {
-        //     console.log({err});
-        //     console.log({token});
-        // });
+
         const token = jwt.sign({usuario, accessToken}, process.env.TOKEN_SECRET)
         return done(null, token);
     }
