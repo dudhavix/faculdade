@@ -10,7 +10,7 @@ module.exports = {
             await usuarioComundiadeService.create(newComunidade.admin, newComunidade._id);
             return true;
         } catch (error) {
-            logger.error("comunidadeService", "findByRandom", error);
+            logger.error("comunidadeService", "create", error);
             return false;
         }
     },
@@ -25,7 +25,7 @@ module.exports = {
             logger.warning("comunidadeService", "update", "nenhuma comunidade encontrada");
             return false;
         } catch (error) {
-            logger.error("comunidadeService", "findByRandom", error);
+            logger.error("comunidadeService", "update", error);
             return false;
         }
     },
@@ -74,7 +74,7 @@ module.exports = {
             const participantes = await usuarioComundiadeService.findRandomParticipantesComunidade(comunidadeId);
             return {comunidade, participantes}
         } catch (error) {
-            logger.error("comunidadeService", "findByRandom", error);
+            logger.error("comunidadeService", "findById", error);
             return false;
         }
     },
