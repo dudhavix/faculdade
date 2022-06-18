@@ -35,29 +35,6 @@
 </template>
 
 <script>
-function handleCredentialResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
-}
-window.onload = function () {
-    google.accounts.id.initialize({
-        client_id: "987882199766-gmlinen7da4cjurg54p15pqa5ghbsh5h.apps.googleusercontent.com",
-        callback: handleCredentialResponse,
-        prompt: "consent",
-        scope: "openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/fitness.heart_rate.read https://www.googleapis.com/auth/fitness.body_temperature.read https://www.googleapis.com/auth/fitness.nutrition.read https://www.googleapis.com/auth/fitness.body.read https://www.googleapis.com/auth/fitness.activity.read https://www.googleapis.com/auth/fitness.location.read https://www.googleapis.com/auth/fitness.blood_glucose.read https://www.googleapis.com/auth/fitness.reproductive_health.read https://www.googleapis.com/auth/fitness.sleep.read https://www.googleapis.com/auth/fitness.blood_pressure.read https://www.googleapis.com/auth/fitness.oxygen_saturation.read",
-    });
-    google.accounts.id.renderButton(
-        document.getElementById("buttonDiv"),
-        {
-            type: "standard",
-            shape: "pill",
-            theme: "outline",
-            text: "Entrar",
-            size: "large",
-            logo_alignment: "left"
-        }  // customization attributes,
-    );
-    //   google.accounts.id.prompt(); // also display the One Tap dialog
-}
 
 import { mapMutations } from "vuex";
 import requestsService from "../services/requests";

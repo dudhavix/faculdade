@@ -6,9 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        hostServidor: "https://walking-challenger-backend.herokuapp.com/",
-        token: null,
+        hostServidor: "http://localhost:5000/",
         
+        token: null,
         usuario: null,
         access_token: null,
 
@@ -33,11 +33,13 @@ export default new Vuex.Store({
         setInformacaoUsuario(state, payload){
             state.usuario = payload.usuario;
             state.access_token = payload.access_token;
+            state.token = payload.token;
         },
 
         logoutUsuario(state,){
             state.usuario = null;
             state.access_token = null;
+            state.token = null;
         },
 
         abrirPerfilComunidade(state, payload){
@@ -85,6 +87,7 @@ export default new Vuex.Store({
         chatComunidade: state => state.chatComunidade,
         alertas: state => state.alertas,
         getUsuario: state => state.usuario,
+        getToken: state => state.token,
     },
     
 
@@ -95,14 +98,14 @@ export default new Vuex.Store({
                 try {
                     const informacao_usuario = jwtDecode(token);
                     localStorage.setItem("token", token);
-                    commit("setInformacaoUsuario", {usuario: informacao_usuario.usuario, access_token: informacao_usuario.access_token});
+                    commit("setInformacaoUsuario", {usuario: informacao_usuario.usuario, access_token: informacao_usuario.access_token, token: token});
                 } catch (error) {
                     
                 }
             }
         },
 
-        logout({commit}){
+        logoutUsuario({commit}){
             localStorage.removeItem("token");
             commit("logoutUsuario");
         },

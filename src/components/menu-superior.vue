@@ -20,7 +20,7 @@
 
 <script>
 import requestService from "../services/requests";
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 export default {
     props: {
         usuario: {
@@ -29,13 +29,11 @@ export default {
     },
 
     methods: {
-        ...mapMutations(["logoutUsuario"]),
+        ...mapActions(["logoutUsuario"]),
 
         logout() {
-            requestService.logout().then(resposta => {
-                this.logoutUsuario();
-                window.location.reload();
-            })
+            this.logoutUsuario();
+            window.location.reload();
         }
     }
 }

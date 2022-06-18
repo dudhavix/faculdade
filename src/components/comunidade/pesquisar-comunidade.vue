@@ -54,7 +54,7 @@ export default {
 
     methods: {
         carregarPesquisa(){
-            requestService.findByAllRandom().then(resposta => {
+            requestService.findByRandom().then(resposta => {
                 this.comunidades = resposta.data;
             }).catch(erro => {
                 console.log(erro);

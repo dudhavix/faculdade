@@ -111,11 +111,15 @@ export default {
     methods: {
         ...mapMutations(["fecharPerfilComunidade", "abrirChatComunidade"]),
 
-        sair(){},
+        sair(){
+            requestService.sairComunidade(this.perfilComunidade.comunidade._id).then(resposta => {
+                window.location.reload()
+            }).catch(erro => {
+                console.log(erro.response);
+            });
+        },
         fechar(){
-            console.log(1);
             requestService.deleteComunidade(this.perfilComunidade.comunidade._id).then(resposta => {
-                console.log(2);
                 window.location.reload()
             }).catch(erro => {
                 console.log(erro.response);
