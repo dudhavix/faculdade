@@ -1,38 +1,38 @@
 const express = require("express");
 
-const googleFitService = require("../services/googleFit");
+const googlefitService = require("../services/googlefit");
 const { recuperarToken } = require("../config/middleware");
 
-const googleFit = express.Router();
+const googlefit = express.Router();
 
-googleFit.route("/steps").get(recuperarToken, async (req, res) => {
-    const stepsData = await googleFitService.getSteps(req.user.accessToken);
+googlefit.route("/steps").get(recuperarToken, async (req, res) => {
+    const stepsData = await googlefitService.getSteps(req.user.accessToken);
     if(!stepsData){
         res.status(400).send("desculpe ocorreu um erro ao recuperar os passos");  
     }else{
-        const steps = googleFitService.mapperData(stepsData);
+        const steps = googlefitService.mapperData(stepsData);
         res.send(steps);
     }
 });
 
-googleFit.route("/sleep").get(recuperarToken, async (req, res) => {
-    const sleepData = await googleFitService.getSleep(req.user.accessToken);
+googlefit.route("/sleep").get(recuperarToken, async (req, res) => {
+    const sleepData = await googlefitService.getSleep(req.user.accessToken);
     if(!sleepData){
         res.status(400).send("desculpe ocorreu um erro ao recuperar os dados de sono");  
     }else{
-        const sleep = googleFitService.mapperData(sleepData);
+        const sleep = googlefitService.mapperData(sleepData);
         res.send(sleep);
     }
 });
 
-googleFit.route("/heartRate").get(recuperarToken, async (req, res) => {
-    const heartRateData = await googleFitService.getHeartRate(req.user.accessToken);
+googlefit.route("/heartRate").get(recuperarToken, async (req, res) => {
+    const heartRateData = await googlefitService.getHeartRate(req.user.accessToken);
     if(!heartRateData){
         res.status(400).send("desculpe ocorreu um erro ao recuperar os dados de frequência cardíaca");  
     }else{
-        const heartRate = googleFitService.mapperData(heartRateData);
+        const heartRate = googlefitService.mapperData(heartRateData);
     res.send(heartRate);
     }
 });
 
-module.exports = googleFit;
+module.exports = googlefit;
