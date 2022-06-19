@@ -14,7 +14,7 @@ require("./src/config/auth");
 const { generateAuthUrl } = require("./src/config/helper-google");
 
 
-app.use(cors());
+app.use(cors(process.env.HOST_FRONTEND));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
