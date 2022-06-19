@@ -63,7 +63,7 @@
                                     <div :class="index == imagemComunidadeSelecionada ? 'border-primary' : ''"
                                         class="border rounded-circle p-3"
                                         @click="selecionarImagem(foto, index)">
-                                        <img class="w-100" :src="`${$store.state.hostServidor}${foto}`" alt="">
+                                        <img class="w-100" :src="`${$store.state.hostServidor}/${foto}`" alt="">
                                     </div>
                                 </div>
                             </div>

@@ -18,7 +18,7 @@
                         </div>
 
                         <div class="col-6 text-center">
-                            <img class="w-50" :src="$store.state.hostServidor+comunidade.foto" alt="">
+                            <img class="w-50" :src="$store.state.hostServidor+'/'+comunidade.foto" alt="">
                         </div>
                     </div>
                 </div>

@@ -38,7 +38,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="d-flex justify-content-center">
-                            <img class="" :src="$store.state.hostServidor + perfilComunidade.comunidade.foto" alt=""
+                            <img class="" :src="$store.state.hostServidor + '/' + perfilComunidade.comunidade.foto" alt=""
                                 style="max-width: 120px;max-height: 120px;">
                         </div>
                         <div class="col-12 text-center">
@@ -94,9 +94,12 @@
 </template>
 
 <script>
+import io from "socket.io-client";
 import requestService from "../../services/requests";
-
 import { mapMutations, mapGetters } from "vuex";
+import store from '../../store';
+
+const socket = io(store.state.hostServidor);
 
 export default {
     name: "ModalPerfilComunidade",
@@ -104,12 +107,18 @@ export default {
     props: {
     },
 
+    data() {
+        return {
+            conversas: null
+        }
+    },
+
     computed: {
         ...mapGetters(["perfilComunidade"]),
     },
 
     methods: {
-        ...mapMutations(["fecharPerfilComunidade", "abrirChatComunidade"]),
+        ...mapMutations(["fecharPerfilComunidade", "abrirChatComunidade", "addConversaChatComunidade"]),
 
         sair(){
             requestService.sairComunidade(this.perfilComunidade.comunidade._id).then(resposta => {
@@ -135,37 +144,22 @@ export default {
         },
 
         abrirChat() {
-            this.abrirChatComunidade({
-                idChat: this.perfilComunidade.comunidadeSelecionada._id,
-                nome: "Deserunt",
-                carregando: false,
-                conversa: [{
-                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                    nome: "Teste 1",
-                    message: "Deserunt consequuntur et distinctio vitae provident",
-                    dataHora: "06-10-2022 21:45:45"
-                }, {
-                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                    nome: "Teste 2",
-                    message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
-                    dataHora: "06-11-2022 14:45:45"
-                }, {
-                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                    nome: "Teste 3",
-                    message: "Deserunt",
-                    dataHora: "06-11-2022 10:45:45"
-                }, {
-                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                    nome: "Teste 4",
-                    message: "Deserunt consequuntur ",
-                    dataHora: "06-11-2022 22:45:45"
-                }, {
-                    picture: "https://i.pinimg.com/736x/41/10/f0/4110f0f0ed7b6cdc91f367f186e82a0c.jpg",
-                    nome: "Teste 5",
-                    message: "Deserunt consequuntur et distinctio vitae providentDeserunt consequuntur et distinctio vitae provident",
-                    dataHora: "06-11-2022 23:45:45"
-                }]
+            requestService.findByChatComunidade(this.perfilComunidade.comunidade._id).then(resposta => {
+                this.conversas = resposta.data
+                socket.emit("abrirChatComunidade", this.perfilComunidade.comunidade._id);
+            
+                this.abrirChatComunidade({
+                    idChat: this.perfilComunidade.comunidade._id,
+                    nome: this.perfilComunidade.comunidade.nome,
+                    carregando: false,
+                    conversa: this.conversas
+                });
             })
+            
+            socket.on("message:received", (data) => {
+                this.addConversaChatComunidade(data)
+            })
+            
         }
     }
 }
