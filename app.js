@@ -34,6 +34,10 @@ app.use("/googlefit", googlefitRouter);
 
 // =============== ROTAS DE ACESSO ===============
 
+app.get("/", async (req, res) => {
+    res.send("oi");
+});
+
 app.get("/login", async (req, res) => {
     const url = await generateAuthUrl();
     res.send(url);
@@ -95,4 +99,4 @@ io.on("connection", (socket) => {
     })
 })
 
-serveHttp.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
+serveHttp.listen(process.env.PORT || 8080, () => console.log(`Rodando na porta ${process.env.PORT}`));
