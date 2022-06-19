@@ -8,10 +8,10 @@ const fs = require("fs").promises;
 const passport = require("passport");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const chat = require("./services/chat");
+const chat = require("./src/services/chat");
 
-require("./config/auth");
-const { generateAuthUrl } = require("./config/helper-google");
+require("./src/config/auth");
+const { generateAuthUrl } = require("./src/config/helper-google");
 
 
 app.use(cors());
@@ -22,13 +22,13 @@ app.use(passport.initialize());
 
 
 // =============== ROTAS DE FUNÇÕES ===============
-const comunidadeRouter = require("./controllers/comunidade");
+const comunidadeRouter = require("./src/controllers/comunidade");
 app.use("/comunidade", comunidadeRouter);
 
-const usuarioComunidadeRouter = require("./controllers/usuario-comunidade");
+const usuarioComunidadeRouter = require("./src/controllers/usuario-comunidade");
 app.use("/usuario-comunidade", usuarioComunidadeRouter);
 
-const googlefitRouter = require("./controllers/googlefit");
+const googlefitRouter = require("./src/controllers/googlefit");
 app.use("/googlefit", googlefitRouter);
 
 
