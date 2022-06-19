@@ -1,10 +1,14 @@
 require("dotenv").config();
 
+const http = require("http");
 const express = require("express");
+const app = express();
+const serveHttp = http.createServer(app);
+const fs = require("fs").promises;
 const passport = require("passport");
 const cors = require("cors");
-const fs = require("fs").promises;
-const app = express();
+const { Server } = require("socket.io");
+const chat = require("./services/chat");
 
 require("./config/auth");
 const { generateAuthUrl } = require("./config/helper-google");
@@ -25,7 +29,7 @@ const usuarioComunidadeRouter = require("./controllers/usuario-comunidade");
 app.use("/usuario-comunidade", usuarioComunidadeRouter);
 
 const googlefitRouter = require("./controllers/googlefit");
-app.use("/googleFit", googlefitRouter);
+app.use("/googlefit", googlefitRouter);
 
 
 // =============== ROTAS DE ACESSO ===============
@@ -46,6 +50,7 @@ app.get("/logout", async (req, res) => {
 
 
 // =============== ROTA DE CARREGGAR ARQUIVOS ===============
+
 app.get('/carregar-img-comunidades', async (req, res) => {
     const diretorio = "./public/img-comunidades";
     const arquivos = [];
@@ -60,4 +65,34 @@ app.get('/carregar-img-comunidades', async (req, res) => {
     res.send(arquivos);
 });
 
-app.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
+// =============== ROTA PARA RECUPERAR HISTÓRICO CHAT ===============
+
+app.get('/chat/:idComunidade', async (req, res) => {
+    const mensagens = await chat.findAll(req.params.idComunidade);
+    res.send(mensagens);
+});
+
+
+// CONFIGURAÇÕES DO CHAT
+
+const io = new Server(serveHttp, {
+    cors: {
+        origin: process.env.HOST_FRONTEND,
+        methods: ["GET", "POST"]
+    }
+});
+
+io.on("connection", (socket) => {
+    socket.on("abrirChatComunidade", (idComunidade) => {
+        if(idComunidade){
+            socket.join(idComunidade)
+        }
+    });
+
+    socket.on("message", async (data) => {
+        const message = await chat.create({...data, created: new Date()});
+        io.to(data.comunidade).emit("message:received", message);
+    })
+})
+
+serveHttp.listen(process.env.PORT, () => console.log(`Rodando na porta ${process.env.PORT}`));
