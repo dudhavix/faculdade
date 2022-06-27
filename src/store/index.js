@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        hostServidor: "https://walking-challenger-backend.herokuapp.com",
+        //hostServidor: "https://walking-challenger-backend.herokuapp.com",
+        hostServidor: "http://localhost:5000",
         
         token: null,
         usuario: null,
@@ -15,7 +16,8 @@ export default new Vuex.Store({
         perfilComunidade: {
             comunidade: null,
             carregando: true,
-            entrar: false
+            entrar: false,
+            desafios: null
         },
 
         chatComunidade: {

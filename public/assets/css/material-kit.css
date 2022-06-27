@@ -6219,7 +6219,7 @@ fieldset:disabled .btn {
   display: block;
   padding: 0.5rem 1rem;
   color: inherit;
-  background-color: #fff;
+  background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 

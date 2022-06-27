@@ -26,8 +26,9 @@
                                 <i class="bi bi-three-dots-vertical"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li class="text-end"><a class="dropdown-item" href="#">Compartilhar</a></li>
+                                <li data-bs-toggle="modal" data-bs-target="#modal-criar-desafio" v-if="perfilComunidade.comunidade.admin._id == $store.state.usuario._id" class="text-end"><a class="dropdown-item" >Criar desafio</a></li>
                                 <li data-bs-toggle="modal" data-bs-target="#modal-editar-comunidade" v-if="perfilComunidade.comunidade.admin._id == $store.state.usuario._id" class="text-end"><a class="dropdown-item" href="#">Editar</a></li>
+                                <li class="text-end"><a class="dropdown-item" href="#">Compartilhar</a></li>
                                 <li @click="sair" v-if="(perfilComunidade.comunidade.admin._id != $store.state.usuario._id) && !perfilComunidade.entrar" class="text-end"><a class="dropdown-item" >Sair da comunidade</a></li>
                                 <li @click="fechar" v-if="perfilComunidade.comunidade.admin._id == $store.state.usuario._id" class="text-end"><a class="dropdown-item" >Fechar a comunidade</a></li>
                             </ul>
@@ -67,6 +68,22 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- <div class="row mt-5">
+                        <h6 class="text-muted">Desafios</h6>
+                        <span v-if="perfilComunidade.desafios == null">Crie um desafio agora mesmo!</span>
+
+                        <div v-else class="">
+                            <ul class="list-group list-group-flush">
+                                <li v-for="(desafio, index) in perfilComunidade.desafios" :key="index" class="list-group-item d-flex justify-content-between px-0">
+                                    <small class="">{{desafio.titulo}}</small>
+                                    <small class="badge bg-primary rounded-pill">{{desafio.tipo}}</small>
+                                    <small class="badge bg-primary rounded-pill">{{desafio.inicio}}</small>
+                                    <small class="badge bg-primary rounded-pill">{{desafio.meta}}</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
                 </div>
 
                 <div v-if="perfilComunidade.entrar" class="d-flex justify-content-between mt-4 pb-4">
@@ -109,7 +126,7 @@ export default {
 
     data() {
         return {
-            conversas: null
+            conversas: null,
         }
     },
 
@@ -161,7 +178,7 @@ export default {
             })
             
         }
-    }
+    },
 }
 </script>
 

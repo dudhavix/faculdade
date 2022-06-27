@@ -20,6 +20,7 @@
         <ModalPerfilComunidade/>
         <ModalChatComunidade/>
         <ModalEditarComunidade/>
+        <ModalCriarDesafio/>
     </div>
 </template>
 
@@ -31,6 +32,7 @@ import ModalEditarComunidade from "../components/comunidade/editar-comunidade.vu
 import ModalPesquisarComunidade from "../components/comunidade/pesquisar-comunidade.vue";
 import ModalPerfilComunidade from "../components/comunidade/perfil-comunidade.vue";
 import ModalChatComunidade from "../components/comunidade/chat-comunidade.vue";
+import ModalCriarDesafio from "../components/comunidade/criar-desafio.vue";
 
 import requestService from "../services/requests";
 import {mapMutations} from "vuex";
@@ -67,7 +69,8 @@ export default {
         ModalPesquisarComunidade,
         ModalPerfilComunidade,
         ModalChatComunidade,
-        ModalEditarComunidade
+        ModalEditarComunidade,
+        ModalCriarDesafio
     },
 }
 </script>

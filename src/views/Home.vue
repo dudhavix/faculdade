@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import requests from "../services/requests";
 import Menu from "../components/menu.vue";
 
 export default {
@@ -73,9 +74,9 @@ export default {
         return {
             usuario: {
                 metaPessoal: 7500,
-                totalPassos: 3743,
+                totalPassos: 0,
                 pontosCardio: 3,
-                historicoAtividades: [1230, 7229, 6448, 8369, 6442, 3720, 2760]
+                historicoAtividades: []
             },
 
             comunidades: [{
@@ -99,7 +100,7 @@ export default {
             }],
 
             configGraficos: {
-                steps: 2500,
+                dispersao: 2500,
                 height: "150px"
             }
         }
@@ -162,7 +163,7 @@ export default {
                             },
                             ticks: {
                                 beginAtZero: true,
-                                stepSize: this.configGraficos.steps,
+                                stepSize: this.configGraficos.dispersao,
                                 fontColor: "#adb5bd",
                                 fontStyle: 'normal',
                                 fontFamily: "Roboto",
@@ -184,12 +185,26 @@ export default {
                     },
                 },
             });
-        }
+        },
     },
 
 
     mounted() {
-        this.montarGrafico();
+        requests.getSteps().then(resposta => {
+            this.usuario.totalPassos = resposta.data.steps
+        }).catch(erro => {
+            console.log(erro);
+        })
+
+        requests.getStepsWeek().then(resposta => {
+            this.usuario.historicoAtividades = resposta.data.steps
+            const menor = Math.min(...resposta.data.steps)
+            const maior = Math.max(...resposta.data.steps)
+            this.configGraficos.dispersao = maior - menor
+            this.montarGrafico();
+        }).catch(erro => {
+            console.log(erro);
+        })
     }
 }
 

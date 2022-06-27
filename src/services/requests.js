@@ -89,6 +89,40 @@ export default {
         });
     },
 
+    // DADOS DE SAÚDE
+    getSteps: () => {
+        return http.get(`/googleFit/steps`, {
+            headers: {
+                Authorization: `Bearer ${store.getters.getToken}`
+            }
+        });
+    },
+
+    getStepsWeek: () => {
+        return http.get(`/googleFit/steps-week`, {
+            headers: {
+                Authorization: `Bearer ${store.getters.getToken}`
+            }
+        });
+    },
+
+    // DESAFIO
+    createDesafio: (desafio) => {
+        return http.post(`/desafio/create`, desafio, {
+            headers: {
+                Authorization: `Bearer ${store.getters.getToken}`
+            }
+        });
+    },
+
+    findByIdComunidadeDesafio: (idComunidade) => {
+        return http.get(`/desafio/findByIdComunidade/${idComunidade}`, {
+            headers: {
+                Authorization: `Bearer ${store.getters.getToken}`
+            }
+        });
+    },
+
 
     // HELPERS
     login: () => {
