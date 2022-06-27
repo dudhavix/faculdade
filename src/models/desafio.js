@@ -8,7 +8,7 @@ const desafioSchema = new Schema({
     fim: { type: String, required: false },
     meta: { type: String, required: false },
     ganhador: { type: Schema.Types.ObjectId, required: false, ref: "usuarios" },
-    created: { type: String, required: true, default: new Date().getTime() },
+    created: { type: String, required: true },
     updated: { type: String, required: false },
     finished: { type: String, required: false },
 });

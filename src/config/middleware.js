@@ -1,5 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 const usuarioService = require("../services/usuario");
+const helperLog = require("./helper-log");
 
 module.exports = {
     recuperarToken: (req, res, next) => {
@@ -8,7 +9,7 @@ module.exports = {
         if(!token){
             res.redirect(`${process.env.HOST_FRONTEND}/login`);
         }
-
+        
         const tokenDecode = jsonwebtoken.decode(token);
         const usuarioExiste = usuarioService.validExisteId(tokenDecode.usuario._id);
 

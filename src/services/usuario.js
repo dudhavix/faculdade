@@ -12,7 +12,7 @@ module.exports = {
     },
 
     findBySub: async (sub) => {
-        return usuario_model.findOne({...sub}, ["name", "picture"])
+        return usuario_model.findOne({...sub}, ["name", "picture", "email"])
     },
 
     validExisteId: async (_id) => {

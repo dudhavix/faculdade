@@ -26,7 +26,7 @@ passport.use(new GoogleStrategy(
             }
         }
 
-        const token = jwt.sign({usuario, accessToken}, process.env.TOKEN_SECRET)
+        const token = jwt.sign({usuario, credenciais: {accessToken, refreshToken}}, process.env.TOKEN_SECRET, {expiresIn: 3000})
         return done(null, token);
     }
 ));

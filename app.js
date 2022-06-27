@@ -31,6 +31,9 @@ app.use("/usuario-comunidade", usuarioComunidadeRouter);
 const googlefitRouter = require("./src/controllers/googlefit");
 app.use("/googlefit", googlefitRouter);
 
+const desafioRouter = require("./src/controllers/desafio");
+app.use("/desafio", desafioRouter);
+
 
 // =============== ROTAS DE ACESSO ===============
 
