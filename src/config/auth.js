@@ -6,7 +6,7 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const CALLBACK_URL = process.env.CALLBACK_URL;
 
-const usuarioService = require("./../services/usuario");
+const usuarioService = require("../services/usuario.service");
 
 passport.use(new GoogleStrategy(
     {
@@ -17,16 +17,15 @@ passport.use(new GoogleStrategy(
     },
 
     async function (request, accessToken, refreshToken, profile, done) {
-        let usuario = await usuarioService.findBySub({ sub: profile._json.sub });
-
-        if(!usuario){
-            const novoUsuarioCriadoSucesso = await usuarioService.create(profile._json);
-            if(novoUsuarioCriadoSucesso){
-                usuario = await usuarioService.findBySub({ sub: profile._json.sub });
-            }
+        const existe = await usuarioService.validExisteSub(profile._json.sub);
+        
+        if(!existe){
+            await usuarioService.create(profile._json);
         }
+        
+        const dataToken = await usuarioService.getForToken(profile._json.sub);
 
-        const token = jwt.sign({usuario, credenciais: {accessToken, refreshToken}}, process.env.TOKEN_SECRET, {expiresIn: 3000})
+        const token = jwt.sign({token: dataToken, credenciais: {accessToken, refreshToken}}, process.env.TOKEN_SECRET, {expiresIn: 3000})
         return done(null, token);
     }
 ));

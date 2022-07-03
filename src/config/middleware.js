@@ -1,9 +1,8 @@
 const jsonwebtoken = require("jsonwebtoken");
-const usuarioService = require("../services/usuario");
-const helperLog = require("./helper-log");
+const usuarioService = require("../services/usuario.service");
 
 module.exports = {
-    recuperarToken: (req, res, next) => {
+    recuperarToken: async (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1];
         
         if(!token){
@@ -11,12 +10,14 @@ module.exports = {
         }
         
         const tokenDecode = jsonwebtoken.decode(token);
-        const usuarioExiste = usuarioService.validExisteId(tokenDecode.usuario._id);
 
-        if(!usuarioExiste){
+        const existe = usuarioService.validExisteId(tokenDecode.token._id);
+
+        if(!existe){
             res.redirect(`${process.env.HOST_FRONTEND}/login`);
         }
-        req.user = tokenDecode;
+
+        req.user =  {...tokenDecode};
         next();
     }
 };

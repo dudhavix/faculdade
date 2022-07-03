@@ -1,16 +1,16 @@
-const logger = require("../config/helper-log");
-const comunidadeModel = require("./../models/comunidade");
-const usuarioComundiadeService = require("./usuario-comunidade");
+const helperLog = require("../config/helper-log");
+const comunidadeModel = require("../models/comunidade.model");
+const usuarioService = require("./usuario.service");
 
 
 module.exports = {
     create: async function(comunidade){
         try {
             const newComunidade = await comunidadeModel.create(comunidade);
-            await usuarioComundiadeService.create(newComunidade.admin, newComunidade._id);
+            await usuarioService.entrarComunidade(newComunidade.admin, newComunidade._id);
             return true;
         } catch (error) {
-            logger.error("comunidadeService", "create", error);
+            helperLog.error("comunidadeService", "create", error);
             return false;
         }
     },
@@ -22,10 +22,10 @@ module.exports = {
                 await comunidadeModel.updateOne({_id: comunidade._id}, {$set: {...comunidade, updated: new Date().getTime()}});
                 return true;
             }
-            logger.warning("comunidadeService", "update", "nenhuma comunidade encontrada");
+            helperLog.warning("comunidadeService", "update", "nenhuma comunidade encontrada");
             return false;
         } catch (error) {
-            logger.error("comunidadeService", "update", error);
+            helperLog.error("comunidadeService", "update", error);
             return false;
         }
     },
@@ -34,15 +34,14 @@ module.exports = {
         try {
             const validExisteId =  await comunidadeModel.findOne({_id: comunidadeId, admin: usuarioId});
             if(validExisteId){
-                //await comunidadeModel.updateOne({_id: comunidadeId}, {$set: {finished: new Date().getTime()}});
-                await usuarioComundiadeService.deleteMany(comunidadeId);
+                await usuarioService.sairComunidadeManyUsuarios(comunidadeId);
                 await comunidadeModel.deleteOne({_id: comunidadeId, admin: usuarioId});
                 return true;
             }
-            logger.warning("comunidadeService", "delete", "nenhuma comunidade encontrada");
+            helperLog.warning("comunidadeService", "delete", "nenhuma comunidade encontrada");
             return false;
         } catch (error) {
-            logger.error("comunidadeService", "findByRandom", error);
+            helperLog.error("comunidadeService", "findByRandom", error);
             return false;
         }
     },
@@ -57,13 +56,15 @@ module.exports = {
 
     findByRandom: async function(usuarioId){
         try {
-            const comundiades = await comunidadeModel.aggregate([{ $match: { aberta: true } },{ $sample: { size: 3 } }]);
+            const comundiades = await comunidadeModel.aggregate([{ $match: { aberta: true } },{ $sample: { size: 10 } }]);
+            const comunidadeUsuario = await usuarioService.validEntrarComunidade(usuarioId);
+
             const comunidadesRandom = comundiades.filter(element => {
-                return element.admin != usuarioId;
+                if((element.admin != usuarioId) && (element._id.toString() != comunidadeUsuario.toString())) return element;
             })
             return comunidadesRandom;
         } catch (error) {
-            logger.error("comunidadeService", "findByRandom", error);
+            helperLog.error("comunidade_Service", "find_By_Random", error);
             return false;
         }
     },
@@ -71,10 +72,10 @@ module.exports = {
     findById: async function(comunidadeId){
         try {
             const comunidade = await comunidadeModel.findOne({_id: comunidadeId}).populate("admin", ["name", "picture"]);
-            const participantes = await usuarioComundiadeService.findRandomParticipantesComunidade(comunidadeId);
+            const participantes = await usuarioService.findRandomParticipantesComunidade(comunidadeId);
             return {comunidade, participantes}
         } catch (error) {
-            logger.error("comunidadeService", "findById", error);
+            helperLog.error("comunidade_Service", "find_By_Id", error);
             return false;
         }
     },

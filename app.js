@@ -22,17 +22,20 @@ app.use(passport.initialize());
 
 
 // =============== ROTAS DE FUNÇÕES ===============
-const comunidadeRouter = require("./src/controllers/comunidade");
+const usuarioRouter = require("./src/controllers/usuario.controller");
+app.use("/usuario", usuarioRouter);
+
+const comunidadeRouter = require("./src/controllers/comunidade.controller");
 app.use("/comunidade", comunidadeRouter);
 
-const usuarioComunidadeRouter = require("./src/controllers/usuario-comunidade");
-app.use("/usuario-comunidade", usuarioComunidadeRouter);
+// const usuarioComunidadeRouter = require("./src/controllers/usuario-comunidade");
+// app.use("/usuario-comunidade", usuarioComunidadeRouter);
 
-const googlefitRouter = require("./src/controllers/googlefit");
-app.use("/googlefit", googlefitRouter);
+// const googlefitRouter = require("./src/controllers/googlefit");
+// app.use("/googlefit", googlefitRouter);
 
-const desafioRouter = require("./src/controllers/desafio");
-app.use("/desafio", desafioRouter);
+// const desafioRouter = require("./src/controllers/desafio");
+// app.use("/desafio", desafioRouter);
 
 
 // =============== ROTAS DE ACESSO ===============
@@ -48,7 +51,8 @@ app.get("/login", async (req, res) => {
 
 app.get("/oauth2callback", passport.authenticate('google', { failureRedirect: `${process.env.HOST_FRONTEND}/erro`, session: false }), (req, res) => {
     let token = res.req.user;
-    res.redirect(`${process.env.HOST_FRONTEND}/login?token=${token}`);
+    //res.redirect(`${process.env.HOST_FRONTEND}/login?token=${token}`);
+    res.redirect(`/?token=${token}`);
 });
 
 app.get("/logout", async (req, res) => {
