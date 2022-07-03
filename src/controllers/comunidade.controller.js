@@ -63,8 +63,9 @@ comunidade.route("/findByRandom").get(recuperarToken, async (req, res) => {
     const response = await comunidadeService.findByRandom(req.user.token._id);
     if (!response) {
         res.status(400).send("erro ao retornar as comunidades");
+    }else{
+        res.status(200).send(response);
     }
-    res.status(200).send(response);
 });
 
 module.exports = comunidade;

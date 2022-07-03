@@ -56,13 +56,18 @@ module.exports = {
 
     findByRandom: async function(usuarioId){
         try {
-            const comundiades = await comunidadeModel.aggregate([{ $match: { aberta: true } },{ $sample: { size: 10 } }]);
             const comunidadeUsuario = await usuarioService.validEntrarComunidade(usuarioId);
+            const comunidades = await comunidadeModel.aggregate([{ $match: { aberta: true } },{ $sample: { size: 10 } }]);
 
-            const comunidadesRandom = comundiades.filter(element => {
-                if((element.admin != usuarioId) && (element._id.toString() != comunidadeUsuario.toString())) return element;
-            })
-            return comunidadesRandom;
+            if(comunidadeUsuario){
+                const comunidadesRandom = comunidades.filter(element => {
+                    if(element._id != comunidadeUsuario.toString()) return element;
+                })
+                return comunidadesRandom;
+            }else{
+                return comunidades;
+            }
+            
         } catch (error) {
             helperLog.error("comunidade_Service", "find_By_Random", error);
             return false;
