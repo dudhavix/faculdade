@@ -11,6 +11,7 @@ const { Server } = require("socket.io");
 const chat = require("./src/services/chat");
 
 require("./src/config/auth");
+// require("./src/services/cron.service");
 const { generateAuthUrl } = require("./src/config/helper-google");
 
 
@@ -28,14 +29,20 @@ app.use("/usuario", usuarioRouter);
 const comunidadeRouter = require("./src/controllers/comunidade.controller");
 app.use("/comunidade", comunidadeRouter);
 
+const desafioRouter = require("./src/controllers/desafio.controller");
+app.use("/desafio", desafioRouter);
+
+const googlefitRouter = require("./src/controllers/googlefit.controller");
+app.use("/googlefit", googlefitRouter);
+
+
 // const usuarioComunidadeRouter = require("./src/controllers/usuario-comunidade");
 // app.use("/usuario-comunidade", usuarioComunidadeRouter);
 
 // const googlefitRouter = require("./src/controllers/googlefit");
 // app.use("/googlefit", googlefitRouter);
 
-// const desafioRouter = require("./src/controllers/desafio");
-// app.use("/desafio", desafioRouter);
+
 
 
 // =============== ROTAS DE ACESSO ===============

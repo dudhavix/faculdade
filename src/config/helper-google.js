@@ -14,17 +14,48 @@ module.exports = {
         });
     },
 
-    generateAuthUrlRefresh: async (params) => {
-        const newAccessToken = await axios.post("https://oauth2.googleapis.com/token", {
-            client_id: process.env.GOOGLE_CLIENT_ID,
-            client_secret: process.env.GOOGLE_CLIENT_SECRET,
-            grant_type: "refresh_token",
-            refresh_token: params
-        }).catch(error => {
-            logger.error("helper-google", "generate_Auth_Url_Refresh", error.response.data.error_description)
-        })
-        return newAccessToken;
+    // generateAccessToken: async function(token) {
+    //     try {
+    //         return axios.post("https://oauth2.googleapis.com/token", {
+    //             grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+    //             assertion: token
+    //         })
+    //     } catch (error) {
+    //         helperLog.error("helper_google", "generate_Access_Token", error);
+    //         return false;
+    //     }
+    // },
 
+    generateAccessToken: async function(token) {
+        try {
+            return axios.post("https://oauth2.googleapis.com/token", {
+                grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                assertion: token
+            })
+        } catch (error) {
+            helperLog.error("helper_google", "generate_Access_Token", error);
+            return false;
+        }
+    },
+    
+    getToken: async function(data) {
+        try {
+            return client.getToken(data)
+        } catch (error) {
+            helperLog.error("helper_google", "get_token", error);
+            return false;
+        }
+    },
+
+    refreshToken: async function(tokens) {
+        try {
+            client._clientSecret = process.env.GOOGLE_CLIENT_SECRET
+            client.setCredentials(tokens)
+            return client.refreshAccessToken();
+        } catch (error) {
+            helperLog.error("helper_google", "refreshToken", error);
+            return false;
+        }
     },
 
     // refreshAccessToken: async (url) => {

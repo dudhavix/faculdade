@@ -1,5 +1,6 @@
 const helperLog = require("../config/helper-log");
 const comunidadeModel = require("../models/comunidade.model");
+const desafioService = require("./desafio.service");
 const usuarioService = require("./usuario.service");
 
 
@@ -78,7 +79,8 @@ module.exports = {
         try {
             const comunidade = await comunidadeModel.findOne({_id: comunidadeId}).populate("admin", ["name", "picture"]);
             const participantes = await usuarioService.findRandomParticipantesComunidade(comunidadeId);
-            return {comunidade, participantes}
+            const desafio = await desafioService.findByIdComunidade(comunidadeId);
+            return {comunidade, participantes, desafio}
         } catch (error) {
             helperLog.error("comunidade_Service", "find_By_Id", error);
             return false;

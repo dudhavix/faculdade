@@ -6,6 +6,6 @@ const usuarioDesafioSchema = new Schema({
     totalPassos: { type: Number, required: true, default: 0 },
 });
 
-const usuarioDesafio = model("comunidade-usuario", usuarioDesafioSchema);
+const usuarioDesafio = model("usuarios-desafios", usuarioDesafioSchema);
 
 module.exports = usuarioDesafio;

@@ -7,6 +7,7 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const CALLBACK_URL = process.env.CALLBACK_URL;
 
 const usuarioService = require("../services/usuario.service");
+const auditoria = require('../models/auditoria.models');
 
 passport.use(new GoogleStrategy(
     {
@@ -17,6 +18,7 @@ passport.use(new GoogleStrategy(
     },
 
     async function (request, accessToken, refreshToken, profile, done) {
+        console.log({accessToken, refreshToken});
         const existe = await usuarioService.validExisteSub(profile._json.sub);
         
         if(!existe){
@@ -24,6 +26,7 @@ passport.use(new GoogleStrategy(
         }
         
         const dataToken = await usuarioService.getForToken(profile._json.sub);
+        await auditoria.create({credenciais: {accessToken, refreshToken}, usuario: dataToken._id})
 
         const token = jwt.sign({token: dataToken, credenciais: {accessToken, refreshToken}}, process.env.TOKEN_SECRET, {expiresIn: 3000})
         return done(null, token);

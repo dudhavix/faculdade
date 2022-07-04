@@ -3,10 +3,11 @@ const helperGoogle = require("../config/helper-google");
 const moment = require("moment");
 
 const logger = require("../config/helper-log");
+const helperLog = require("../config/helper-log");
 
 module.exports = {
-    getSteps: async function (token) {
-        const steps = await axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
+    getSteps: async function (accessToken) {
+        const steps = await axios.post(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
             "aggregateBy": [{
                 "dataTypeName": "com.google.step_count.delta",
                 "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
@@ -14,61 +15,27 @@ module.exports = {
             "bucketByTime": { "durationMillis": 86400000 },
             "startTimeMillis": new Date(new Date().toDateString()).getTime(),
             "endTimeMillis": new Date().getTime()
-        }, { headers: getAuthorization(token) }).then(resposta => {
-            return resposta;
-        }).catch(error => {
-            logger.error("googlefitService", "getSteps", error);
+        }, { headers: getAuthorization(accessToken) }).catch(error => {
+            helperLog.error("googlefitService", "getSteps", error);
             return false;
         });
         return steps;
     },
 
-    getStepsWeek: async function (token) {
-        const steps = await axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
+    getStepsWeek: async function (accessToken, inicioSemana, fimSemana) {
+        const steps = await axios.post(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
             "aggregateBy": [{
                 "dataTypeName": "com.google.step_count.delta",
                 "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
             }],
             "bucketByTime": { "durationMillis": 86400000 },
-            "startTimeMillis": new Date(moment().day(-7).hour(0).minute(0).millisecond(0)).getTime(),
-            "endTimeMillis": new Date(moment().day(-1).hour(23).minute(59).millisecond(59)).getTime()
-        }, { 
-            headers: getAuthorization(token) 
-        }).catch(async error => {
-            logger.error("googlefitService", "testes", error);
+            "startTimeMillis": new Date(moment().day(inicioSemana).hour(0).minute(0).millisecond(0)).getTime(),
+            "endTimeMillis": new Date(moment().day(fimSemana).hour(23).minute(59).millisecond(59)).getTime()
+        }, { headers: getAuthorization(accessToken) }).catch(async error => {
+            logger.error("googlefitService", "getStepsWeek", error);
             return false;
         });
         return steps;
-    },
-
-    getSleep: async function (token) {
-        return axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
-            "aggregateBy": [{
-                "dataTypeName": "com.google.sleep.segment",
-            }],
-            "startTimeMillis": new Date("Tue May 21 2022").getTime(),
-            "endTimeMillis": new Date("Tue May 22 2022").getTime()
-        }, { headers: getAuthorization(token) }).then(resposta => {
-            return resposta;
-        }).catch(error => {
-            logger.error("googlefitService", "getSleep", error);
-            return false;
-        });
-    },
-
-    getHeartRate: async function (token) {
-        axios.post("https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate", {
-            "aggregateBy": [{
-                "dataTypeName": "com.google.heart_rate.bpm",
-            }],
-            "startTimeMillis": new Date("Tue May 21 2022").getTime(),
-            "endTimeMillis": new Date("Tue May 22 2022").getTime()
-        }, { headers: getAuthorization(token) }).then(resposta => {
-            return resposta;
-        }).catch(error => {
-            logger.error("googlefitService", "getHeartRate", error);
-            return false;
-        });
     },
 
     mapperDataSteps: (data) => {
@@ -113,9 +80,4 @@ module.exports = {
 
 function getAuthorization(accessToken) {
     return { authorization: `Bearer ${accessToken}` }
-}
-
-async function refreshToken(token) {
-    const credenciais = await helperGoogle.refreshAccessToken(token);
-
 }
