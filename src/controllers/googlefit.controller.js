@@ -13,7 +13,7 @@ googlefit.route("/steps").get(recuperarToken, async (req, res) => {
     const token = "ya29.A0ARrdaM80KGhtzn_k6i7ll77SdNUSuZdTpK61NVzpu2ZZICK3FsJgXp3IHbpPilR6sdQWGCDcgrUb6Wk_AXflsTtgwV9bHJeS2jV7Xs9i90J78qU-8YazvcjHHkmrYGtXkY9Oan4p_ZxflcbqUoptFtRgKi7VYUNnWUtBVEFTQVRBU0ZRRl91NjFWTFp0cXk4S2VReTBFaGl0YWNUdFJ2UQ0163"
     const sub = "106773803278590125414"
     googlefitService.getSteps(token, sub).then(resposta => {
-        const steps = googlefitService.mapperDataSteps(resposta);
+        const steps = googlefitService.mapperDataStepsWeek(resposta);
         res.send({steps})
     }).catch(erro => {
         helperLog.error("googlefit_controller", "steps", erro)

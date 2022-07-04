@@ -6,7 +6,7 @@ const logger = require("../config/helper-log");
 const helperLog = require("../config/helper-log");
 
 module.exports = {
-    getSteps: async function (accessToken) {
+    getStepsHoje: async function (accessToken) {
         const steps = await axios.post(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
             "aggregateBy": [{
                 "dataTypeName": "com.google.step_count.delta",
@@ -38,12 +38,46 @@ module.exports = {
         return steps;
     },
 
-    mapperDataSteps: (data) => {
+    getStepsTimeEstipuleted: async function (accessToken, timeInicio, timeFim) {
+        const steps = await axios.post(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
+            "aggregateBy": [{
+                "dataTypeName": "com.google.step_count.delta",
+                "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+            }],
+            "bucketByTime": { "durationMillis": 86400000 },
+            "startTimeMillis": new Date(moment(`${timeInicio}`).hour(00).minute(00).second(00)).getTime(),
+            "endTimeMillis": new Date(moment(`${timeFim}`).hour(23).minute(59).second(59)).getTime()
+        }, { headers: getAuthorization(accessToken) }).catch(async error => {
+            logger.error("googlefitService", "getStepsWeek", error);
+            return false;
+        });
+        return steps;
+    },
+
+    mapperStepsTimeEstipuleted: (data) => {
         const bucketArr = data.data.bucket;
         let newDateList = [];
         for (const item of bucketArr) {
-            // item.startTimeMillis = new Date(Number(item.startTimeMillis)).toLocaleString()
-            // item.endTimeMillis = new Date(Number(item.endTimeMillis)).toLocaleString()
+            for (const dataset of item.dataset) {
+                if(dataset.point.length == 0){
+                    newDateList.push(0);
+                }
+                for (const point of dataset.point) {
+                    console.log(point);
+                    for (const value of point.value) {
+                        newDateList.push(value.intVal);
+                    }
+                }
+            }
+        }
+
+        return newDateList;
+    },
+
+    mapperDataStepsWeek: (data) => {
+        const bucketArr = data.data.bucket;
+        let newDateList = [];
+        for (const item of bucketArr) {
             for (const dataset of item.dataset) {
                 if(dataset.point.length == 0){
                     newDateList.push(0);
