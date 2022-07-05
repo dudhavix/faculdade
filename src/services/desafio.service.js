@@ -31,9 +31,14 @@ module.exports = {
         return desafioModel.find({comundiade: idComundiade, finished: null}).populate("ganhador", ["name", "picture"])
     },
 
+    findAll: async () => {
+        return desafioModel.find({finished: null});
+    },
+
     finalizar: async (idDesafio) => {
         try {
             await desafioModel.updateOne({_id: idDesafio}, { $set: {finished: new Date().getTime()}});
+            await usuarioDesafioModel.updateOne({_id: idDesafio}, { $set: {ativo: false}});
             return true;
         } catch (error) {
             helperLog.error("desafio_service", "finalizar", error);
@@ -43,7 +48,7 @@ module.exports = {
 
     atualizarPassos: async (idDesafio, idUsuario, totalPassos) => {
         try {
-            await usuarioDesafioModel.updateOne({desafio: idDesafio, usuario: idUsuario}, { $set: {totalPassos}});
+            await usuarioDesafioModel.updateOne({desafio: idDesafio, usuario: idUsuario, ativo: true}, { $set: {totalPassos}});
             return true;
         } catch (error) {
             helperLog.error("desafio_service", "atualizarPassos", error);

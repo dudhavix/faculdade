@@ -11,7 +11,7 @@ const { Server } = require("socket.io");
 const chat = require("./src/services/chat");
 
 require("./src/config/auth");
-// require("./src/services/cron.service");
+require("./src/services/cron.service");
 const { generateAuthUrl } = require("./src/config/helper-google");
 
 

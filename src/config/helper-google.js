@@ -50,7 +50,7 @@ module.exports = {
     refreshToken: async function(tokens) {
         try {
             client._clientSecret = process.env.GOOGLE_CLIENT_SECRET
-            client.setCredentials(tokens)
+            client.setCredentials({refresh_token: tokens.refreshToken})
             return client.refreshAccessToken();
         } catch (error) {
             helperLog.error("helper_google", "refreshToken", error);

@@ -57,21 +57,23 @@ module.exports = {
     mapperStepsTimeEstipuleted: (data) => {
         const bucketArr = data.data.bucket;
         let newDateList = [];
+        let totalPassos = 0;
+
         for (const item of bucketArr) {
             for (const dataset of item.dataset) {
                 if(dataset.point.length == 0){
                     newDateList.push(0);
                 }
                 for (const point of dataset.point) {
-                    console.log(point);
                     for (const value of point.value) {
                         newDateList.push(value.intVal);
+                        totalPassos = totalPassos + value.intVal;
                     }
                 }
             }
         }
 
-        return newDateList;
+        return totalPassos;
     },
 
     mapperDataStepsWeek: (data) => {

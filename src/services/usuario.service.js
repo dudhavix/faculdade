@@ -74,6 +74,16 @@ module.exports = {
         }
     },
 
+    findByComunidade: async (idComunidade) => {
+        try {
+            return usuarioModel.find({comunidade: idComunidade}, ["_id"]);
+        } catch (error) {
+            helperLog.error("usuario_service", "find_By_Comunidade", error);
+            return false;
+        }
+        
+    },
+
     validExisteId: async (_id) => {
         return usuarioModel.exists({_id, excluded: null});
     },
