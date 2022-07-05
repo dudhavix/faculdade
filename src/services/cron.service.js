@@ -1,4 +1,5 @@
 const cron = require("node-cron");
+const moment = require("moment");
 const helperLog = require("../config/helper-log");
 const googlefitService = require("./googlefit.service");
 const helperGoogle = require("../config/helper-google");
@@ -11,6 +12,22 @@ cron.schedule("*/10 * * * *", () => {
     helperLog.debug("cron", "inicio do cron", "");
     atualizarPassos()
 });
+
+cron.schedule("59 58 23 * * *", () => {
+    const dayHoje = moment().format("YYYY-MM-DD");
+    const desafios = await desafioService.findAllFinishedAteOFim(dayHoje);
+    for (const desafio of desafios) {
+        await desafioService.finalizar(desafio)
+    }
+});
+
+cron.schedule("0 0 */1 * * *", () => {
+    const desafios = await desafioService.findAllFinishedAteOLimite();
+    for (const desafio of desafios) {
+        await desafioService.finalizar(desafio)
+    }
+});
+
 
 async function atualizarPassos() {
     const desafios = await desafioService.findAll();

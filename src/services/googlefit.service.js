@@ -39,6 +39,11 @@ module.exports = {
     },
 
     getStepsTimeEstipuleted: async function (accessToken, timeInicio, timeFim) {
+        if(timeFim){
+            timeFim = new Date(moment(`${timeFim}`).hour(23).minute(59).second(59)).getTime()
+        }else{
+            timeFim = new Date(moment().hour(23).minute(59).second(59)).getTime()
+        }
         const steps = await axios.post(`https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate`, {
             "aggregateBy": [{
                 "dataTypeName": "com.google.step_count.delta",
@@ -46,7 +51,7 @@ module.exports = {
             }],
             "bucketByTime": { "durationMillis": 86400000 },
             "startTimeMillis": new Date(moment(`${timeInicio}`).hour(00).minute(00).second(00)).getTime(),
-            "endTimeMillis": new Date(moment(`${timeFim}`).hour(23).minute(59).second(59)).getTime()
+            "endTimeMillis": timeFim
         }, { headers: getAuthorization(accessToken) }).catch(async error => {
             logger.error("googlefitService", "getStepsWeek", error);
             return false;
