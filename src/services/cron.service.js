@@ -9,25 +9,34 @@ const usuarioService = require("../services/usuario.service");
 const auditoriaModels = require('../models/auditoria.models');
 
 cron.schedule("*/10 * * * *", () => {
-    helperLog.debug("cron", "inicio do cron", "");
+    helperLog.debug("cron", "atualizar passos", "inicio do cron");
     atualizarPassos()
 });
 
 cron.schedule("59 58 23 * * *", () => {
+    helperLog.debug("cron", "finished_Ate_O_Fim", "inicio do cron");
+    finishedAteOFim();
+});
+
+cron.schedule("0 0 */1 * * *", () => {
+    helperLog.debug("cron", "finished_Ate_O_limite", "inicio do cron");
+    finishedAteOLimite();
+});
+
+async function finishedAteOFim() {
     const dayHoje = moment().format("YYYY-MM-DD");
     const desafios = await desafioService.findAllFinishedAteOFim(dayHoje);
     for (const desafio of desafios) {
         await desafioService.finalizar(desafio)
     }
-});
+}
 
-cron.schedule("0 0 */1 * * *", () => {
+async function finishedAteOLimite() {
     const desafios = await desafioService.findAllFinishedAteOLimite();
     for (const desafio of desafios) {
         await desafioService.finalizar(desafio)
     }
-});
-
+}
 
 async function atualizarPassos() {
     const desafios = await desafioService.findAll();
