@@ -11,14 +11,14 @@
                 </h4>
             </router-link>
 
-            <router-link :to="{ name: 'home' }">
+            <!-- <router-link :to="{ name: 'home' }">
                 <h4 v-if="menuAtivo.home" class="active">
                     <i class="bi bi-house-door-fill"></i>
                 </h4>
                 <h4 v-else class="text-color-cinza">
                     <i class="bi bi-house-door"></i>
                 </h4>
-            </router-link>
+            </router-link> -->
 
             
             <router-link :to="{ name: 'perfil' }">

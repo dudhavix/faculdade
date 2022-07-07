@@ -56,13 +56,13 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     if (to.name == 'home' || to.name == 'comunidades' || to.name == 'perfil') {
-        if (!store.getters.getUsuario) {
+        if (!store.state.token) {
             next('/login');
         }
     }
     if (to.name == "login") {
         store.dispatch('setToken', to.query.token);
-        if (store.getters.getUsuario) {
+        if (store.state.token) {
             next('/comunidades');
         }
     }

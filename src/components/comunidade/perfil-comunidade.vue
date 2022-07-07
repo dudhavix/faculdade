@@ -61,9 +61,8 @@
                         <div class="mt-4 col-12 text-center">
                             <small class="text-muted">Alguns participantes</small>
                             <div class="avatar-group ">
-                                <a v-for="(participante, index) in perfilComunidade.participantes" :key="index"
-                                    href="javascript:;" class="avatar rounded-circle">
-                                    <img :src="participante.usuario.picture">
+                                <a v-for="(participante, index) in perfilComunidade.participantes" :key="index" href="javascript:;" class="avatar rounded-circle">
+                                    <img :src="participante.picture">
                                 </a>
                             </div>
                         </div>

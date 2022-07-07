@@ -104,7 +104,7 @@ export default {
 
 #lupaComunidade {
     position: fixed;
-    top: 90vh;
+    top: 85vh;
     left: 85vw;
     padding: 0;
     margin: 0;

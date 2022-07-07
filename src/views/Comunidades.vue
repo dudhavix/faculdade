@@ -5,12 +5,12 @@
             <ModalCriarComunidade />
         </div>
         <div class="col-12 px-4 mb-7">
-            <div class="row">
-                <div v-if="comunidades.length == 0" class="text-muted text-center">
+            <div v-if="$store.state.usuario" class="row">
+                <div v-if="$store.state.usuario.comunidade == null" class="text-muted text-center">
                     Você ainda não participa de nenhuma comunidade
                 </div>
                 <div v-else>
-                    <ListaComunidade  :listaComunidades="comunidades" :entrarComunidade="false"/>
+                    <ListaComunidade  :comunidades="[$store.state.usuario.comunidade]" :entrarComunidade="false"/>
                 </div>
             </div>
         </div>
@@ -42,24 +42,18 @@ export default {
 
     data() {
         return {
-            comunidades: [],
         }
     },
 
     methods: {
-        ...mapMutations(["addAlerta"]),
     },
 
     created(){
-        requestService.findByAllUsuario().then(resposta => {
-            this.comunidades = resposta.data;
-        }).catch(erro => {
-            this.addAlerta({
-                msg: erro.response,
-                status: "alert-error"
-            })
-            console.log(erro.response);
-        });
+        requestService.findByUsuario().then(resposta => {
+            this.$store.state.usuario = {...resposta.data.usuario, desafio: resposta.data.desafio, participantes: resposta.data.participantes}
+        }).catch(error => {
+            console.log("ERRO NO REQUEST PARA TRAZER INFORMAÇÕES DO USUÁRIO", error);
+        })
     },
 
     components: {

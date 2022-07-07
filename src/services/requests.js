@@ -64,8 +64,8 @@ export default {
     },
 
     // USUÁRIO <> COMUNIDADE
-    findByAllUsuario: () => {
-        return http.get(`/usuario-comunidade/findByAllUsuario`, {
+    findByUsuario: () => {
+        return http.get(`/usuario`, {
             headers: {
                 Authorization: `Bearer ${store.getters.getToken}`
             }

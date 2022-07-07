@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import jwtDecode from "jwt-decode";
+import requests from '../services/requests';
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
 
         perfilComunidade: {
             comunidade: null,
+            participantes: null,
             carregando: true,
             entrar: false,
             desafios: null
@@ -32,10 +34,12 @@ export default new Vuex.Store({
 
     },
     mutations: {
-        setInformacaoUsuario(state, payload){
-            state.usuario = payload.usuario;
-            state.access_token = payload.access_token;
-            state.token = payload.token;
+        setToken(state, payload){
+            state.token = payload;
+        },
+
+        setUsuario(state, payload){
+            state.usuario = payload;
         },
 
         logoutUsuario(state,){
@@ -98,9 +102,8 @@ export default new Vuex.Store({
             const token = payload || localStorage.getItem("token");
             if(token){
                 try {
-                    const informacao_usuario = jwtDecode(token);
                     localStorage.setItem("token", token);
-                    commit("setInformacaoUsuario", {usuario: informacao_usuario.usuario, access_token: informacao_usuario.access_token, token: token});
+                    commit("setToken", token);
                 } catch (error) {
                     
                 }
