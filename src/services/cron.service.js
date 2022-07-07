@@ -40,6 +40,9 @@ async function finishedAteOLimite() {
 
 async function atualizarPassos() {
     const desafios = await desafioService.findAll();
+    if(desafios.length == 0 ){
+        return
+    }
     let participantesDesafio = []
     for (const desafio of desafios) {
         const participantes = await usuarioService.findByComunidade(desafio.comunidade);

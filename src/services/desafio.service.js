@@ -28,7 +28,7 @@ module.exports = {
     },
 
     findByIdComunidade: async (idComundiade) => {
-        return desafioModel.find({ comundiade: idComundiade, finished: null }).populate("ganhador", ["name", "picture"])
+        return desafioModel.findOne({ comundiade: idComundiade, finished: null }).populate("ganhador", ["name", "picture"])
     },
 
     findAll: async () => {

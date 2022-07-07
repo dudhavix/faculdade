@@ -58,8 +58,8 @@ app.get("/login", async (req, res) => {
 
 app.get("/oauth2callback", passport.authenticate('google', { failureRedirect: `${process.env.HOST_FRONTEND}/erro`, session: false }), (req, res) => {
     let token = res.req.user;
-    //res.redirect(`${process.env.HOST_FRONTEND}/login?token=${token}`);
-    res.redirect(`/?token=${token}`);
+    res.redirect(`${process.env.HOST_FRONTEND}/login?token=${token}`);
+    // res.redirect(`/?token=${token}`);
 });
 
 app.get("/logout", async (req, res) => {
