@@ -27,6 +27,7 @@ module.exports = {
     sairComunidade: async (_id) => {
         try {
             await usuarioModel.updateOne({ _id }, { $set: { comunidade: null } });
+            await usuarioDesafioModel.deleteOne({usuario: _id, ativo: true});
             return true;
         } catch (error) {
             helperLog.error("usuario_service", "sair_Comunidade", error);
