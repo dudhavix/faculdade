@@ -8,7 +8,7 @@
             <div class="dropdown">
                 <a class="avatar avatar-sm rounded-circle" role="button" id="dropdownMenuLink"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="rounded-circle" alt="Image placeholder" :src="usuario.picture">
+                    <img referrerpolicy="no-referrer" class="rounded-circle" alt="Image placeholder" :src="usuario.picture">
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li class="text-end" @click="logout"><a class="dropdown-item">Sair</a></li>

@@ -29,7 +29,7 @@
                         <h6 class="text-center mt-5">Talvez você se interesse</h6>
                         
                         <div v-if="comunidades.length > 0">
-                            <ListaComunidade  :listaComunidades="comunidades" :entrarComunidade="true"/>
+                            <ListaComunidade  :comunidades="comunidades" :entrarComunidade="true"/>
                         </div>
                     </div>
                 </div>

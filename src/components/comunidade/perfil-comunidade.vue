@@ -54,7 +54,7 @@
                         </div>
                         <div class="mt-4 col-6 text-center">
                             <small class="text-muted">Admin</small><br>
-                            <img class="avatar rounded-circle" :src="perfilComunidade.comunidade.admin.picture">
+                            <img referrerpolicy="no-referrer" class="avatar rounded-circle" :src="perfilComunidade.comunidade.admin.picture">
                             <br>
                             <small class="text-muted">{{ perfilComunidade.comunidade.admin.name }}</small><br>
                         </div>
@@ -62,7 +62,7 @@
                             <small class="text-muted">Alguns participantes</small>
                             <div class="avatar-group ">
                                 <a v-for="(participante, index) in perfilComunidade.participantes" :key="index" href="javascript:;" class="avatar rounded-circle">
-                                    <img :src="participante.picture">
+                                    <img referrerpolicy="no-referrer" :src="participante.picture">
                                 </a>
                             </div>
                         </div>
